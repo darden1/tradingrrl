@@ -10,7 +10,6 @@ cimport cython
 ctypedef np.float64_t DOUBLE_t
 ctypedef np.int_t INT_t
 
-import copy
 import time
 import pickle
 import pandas as pd
