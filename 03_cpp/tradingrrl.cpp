@@ -64,7 +64,7 @@ class TradingRRL{
         double q_threshold;
         double mu;
         double sigma;
-        double alpha;
+        double rho;
         int n_epoch;
         int progress_period;
         vector<string> t;
@@ -91,7 +91,7 @@ class TradingRRL{
         vector<double> dSdw;
         
         // ---  Constructor
-        TradingRRL(int T=1000, int M=200, int init_t=10000, double q_threshold=0.7, double  mu=10000, double sigma=0.04, double alpha=1.0, int n_epoch=10000)
+        TradingRRL(int T=1000, int M=200, int init_t=10000, double q_threshold=0.7, double  mu=10000, double sigma=0.04, double rho=1.0, int n_epoch=10000)
         :
         T(T),
         M(M),
@@ -99,7 +99,7 @@ class TradingRRL{
         q_threshold(q_threshold),
         mu(mu),
         sigma(sigma),
-        alpha(alpha),
+        rho(rho),
         n_epoch(n_epoch),
         progress_period(100),
         x(T, vector<double>(M+2, 0.0)),
@@ -219,7 +219,7 @@ class TradingRRL{
 
         void update_w(){
             for(int j=0 ; j<M+2; ++j ){
-                w[j] += alpha * dSdw[j];
+                w[j] += rho * dSdw[j];
             }
         }
         
@@ -275,13 +275,13 @@ int main()
     double q_threshold = 0.7;
     double mu = 10000;
     double sigma = 0.04;
-    double alpha = 1.0;
+    double rho = 1.0;
     int n_epoch = 10000;
     
     ChartData cd;
     cd.load_csv(fname);
     
-    TradingRRL rrl(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch);
+    TradingRRL rrl(T, M, init_t, q_threshold, mu, sigma, rho, n_epoch);
     rrl.set_t_p_r(cd);
     rrl.fit();
     rrl.save_weights();

@@ -17,7 +17,7 @@ def main():
     q_threshold = 0.7
     mu = 10000
     sigma = 0.04
-    alpha = 1.0
+    rho = 1.0
     n_epoch = 10000
 
     # Prepare chart data
@@ -26,9 +26,9 @@ def main():
     all_t, all_p = cd.all_t, cd.all_p
 
     # Training RRL agent.
-    rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
+    rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, rho, n_epoch)
     rrl.set_t_p_r(all_t, all_p)
-    ini_rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
+    ini_rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, rho, n_epoch)
     ini_rrl.set_t_p_r(all_t, all_p)
     ini_rrl.calc_dSdw()
     rrl.fit()
@@ -68,9 +68,9 @@ def main():
 
 
     # Prediction for next term T with optimized weight.
-    rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
+    rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, rho, n_epoch)
     rrl_f.set_t_p_r(all_t, all_p)
-    ini_rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
+    ini_rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, rho, n_epoch)
     ini_rrl_f.set_t_p_r(all_t, all_p)
     ini_rrl_f.calc_dSdw()
     rrl_f.w = rrl.w.copy()
@@ -115,14 +115,14 @@ class ChartData(object):
 
 
 class TradingRRL(object):
-    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, alpha=1.0, n_epoch=10000):
+    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
         self.T = T
         self.M = M
         self.init_t = init_t
         self.q_threshold = q_threshold
         self.mu = mu
         self.sigma = sigma
-        self.alpha = alpha
+        self.rho = rho
         self.t = None
         self.p = None
         self.r = None
@@ -183,7 +183,7 @@ class TradingRRL(object):
             self.dSdw += (self.dSdA * self.dAdR + self.dSdB * self.dBdR[i]) * (self.dRdF[i] * self.dFdw + self.dRdFp[i] * self.dFpdw)
 
     def update_w(self):
-        self.w += self.alpha * self.dSdw
+        self.w += self.rho * self.dSdw
 
     def fit(self):
         tic = time.clock()

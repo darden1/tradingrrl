@@ -37,7 +37,7 @@ cdef class TradingRRL(object):
     cdef public double q_threshold
     cdef public double mu
     cdef public double sigma
-    cdef public double alpha
+    cdef public double rho
     cdef public np.ndarray t
     cdef public np.ndarray p
     cdef public np.ndarray r
@@ -63,14 +63,14 @@ cdef class TradingRRL(object):
     cdef public np.ndarray dFdw
     cdef public np.ndarray dSdw
 
-    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, alpha=1.0, n_epoch=10000):
+    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
         self.T = T
         self.M = M
         self.init_t = init_t
         self.q_threshold = q_threshold
         self.mu = mu
         self.sigma = sigma
-        self.alpha = alpha
+        self.rho = rho
         self.t = None
         self.p = None
         self.r = None
@@ -212,7 +212,7 @@ cdef class TradingRRL(object):
         self.dSdw = dSdw
 
     def update_w(self):
-        self.w += self.alpha*self.dSdw
+        self.w += self.rho*self.dSdw
 
     def fit(self):
         cdef double tic
