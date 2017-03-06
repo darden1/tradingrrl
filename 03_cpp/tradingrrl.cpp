@@ -42,7 +42,7 @@ class ChartData{
                 vector<string> strvec = split(line, ',');
                 stringstream ss;
                 tmp_tstr = strvec.at(0) + " " + strvec.at(1);
-                ss << strvec.at(2);
+                ss << strvec.at(5);
                 ss >> tmp_pdbl;
                 tmp_t.push_back(tmp_tstr);
                 tmp_p.push_back(tmp_pdbl);

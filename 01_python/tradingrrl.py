@@ -109,7 +109,7 @@ class ChartData(object):
         tmp = pd.read_csv(fname, header=None)
         tmp_tstr = tmp[0] +" " + tmp[1]
         tmp_t = [dt.strptime(tmp_tstr[i], '%Y.%m.%d %H:%M') for i in range(len(tmp_tstr))]
-        tmp_p = list(tmp[2])
+        tmp_p = list(tmp[5])
         self.all_t = np.array(tmp_t[::-1])
         self.all_p = np.array(tmp_p[::-1])
 
