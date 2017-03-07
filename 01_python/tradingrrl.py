@@ -17,7 +17,7 @@ def main():
     q_threshold = 0.7
     mu = 10000
     sigma = 0.04
-    rho = 1.0
+    alpha = 1.0
     n_epoch = 10000
 
     # Prepare chart data
@@ -26,11 +26,11 @@ def main():
     all_t, all_p = cd.all_t, cd.all_p
 
     # Training RRL agent.
-    rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, rho, n_epoch)
-    rrl.set_t_p_r(all_t, all_p)
-    ini_rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, rho, n_epoch)
+    ini_rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
     ini_rrl.set_t_p_r(all_t, all_p)
     ini_rrl.calc_dSdw()
+    rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
+    rrl.set_t_p_r(all_t, all_p)
     rrl.fit()
 
     # Plot results.
@@ -68,11 +68,11 @@ def main():
 
 
     # Prediction for next term T with optimized weight.
-    rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, rho, n_epoch)
-    rrl_f.set_t_p_r(all_t, all_p)
-    ini_rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, rho, n_epoch)
+    ini_rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
     ini_rrl_f.set_t_p_r(all_t, all_p)
     ini_rrl_f.calc_dSdw()
+    rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
+    rrl_f.set_t_p_r(all_t, all_p)
     rrl_f.w = rrl.w.copy()
     rrl_f.calc_dSdw()
 
