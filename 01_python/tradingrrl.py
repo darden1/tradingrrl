@@ -14,23 +14,20 @@ def main():
 
     T = 1000
     M = 200
-    q_threshold = 0.7
     mu = 10000
     sigma = 0.04
-    alpha = 1.0
+    rho = 1.0
     n_epoch = 10000
 
-    # Prepare chart data
-    cd = ChartData()
-    cd.load_csv(fname)
-    all_t, all_p = cd.all_t, cd.all_p
-
-    # Training RRL agent.
-    ini_rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
-    ini_rrl.set_t_p_r(all_t, all_p)
+    # RRL agent with initial weight.
+    ini_rrl = TradingRRL(T, M, init_t, mu, sigma, rho, n_epoch)
+    ini_rrl.load_csv(fname)
+    ini_rrl.set_t_p_r()
     ini_rrl.calc_dSdw()
-    rrl = TradingRRL(T, M, init_t, q_threshold, mu, sigma, alpha, n_epoch)
-    rrl.set_t_p_r(all_t, all_p)
+    # RRL agent for training 
+    rrl = TradingRRL(T, M, init_t,  mu, sigma, rho, n_epoch)
+    rrl.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl.set_t_p_r()
     rrl.fit()
 
     # Plot results.
@@ -68,12 +65,16 @@ def main():
 
 
     # Prediction for next term T with optimized weight.
-    ini_rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
-    ini_rrl_f.set_t_p_r(all_t, all_p)
+    # RRL agent with initial weight.
+    ini_rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
+    ini_rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    ini_rrl_f.set_t_p_r()
     ini_rrl_f.calc_dSdw()
-    rrl_f = TradingRRL(T, M, init_t-T, q_threshold, mu, sigma, alpha, n_epoch)
-    rrl_f.set_t_p_r(all_t, all_p)
-    rrl_f.w = rrl.w.copy()
+    # RRL agent with optimized weight.
+    rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
+    rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl_f.set_t_p_r()
+    rrl_f.set_w(rrl.w)
     rrl_f.calc_dSdw()
 
     fig, ax = plt.subplots(nrows=3, figsize=(15, 10))
@@ -99,30 +100,16 @@ def main():
     plt.savefig("rrl_prediction.png", dpi=300)
     fig.clear()
 
-
-class ChartData(object):
-    def __init__(self):
-        self.all_t = None # time
-        self.all_p = None # price
-
-    def load_csv(self, fname):
-        tmp = pd.read_csv(fname, header=None)
-        tmp_tstr = tmp[0] +" " + tmp[1]
-        tmp_t = [dt.strptime(tmp_tstr[i], '%Y.%m.%d %H:%M') for i in range(len(tmp_tstr))]
-        tmp_p = list(tmp[5])
-        self.all_t = np.array(tmp_t[::-1])
-        self.all_p = np.array(tmp_p[::-1])
-
-
 class TradingRRL(object):
-    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
+    def __init__(self, T=1000, M=200, init_t=10000, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
         self.T = T
         self.M = M
         self.init_t = init_t
-        self.q_threshold = q_threshold
         self.mu = mu
         self.sigma = sigma
         self.rho = rho
+        self.all_t = None
+        self.all_p = None
         self.t = None
         self.p = None
         self.r = None
@@ -133,15 +120,31 @@ class TradingRRL(object):
         self.epoch_S = np.empty(0)
         self.n_epoch = n_epoch
         self.progress_period = 100
+        self.q_threshold = 0.7
+
+    def load_csv(self, fname):
+        tmp = pd.read_csv(fname, header=None)
+        tmp_tstr = tmp[0] +" " + tmp[1]
+        tmp_t = [dt.strptime(tmp_tstr[i], '%Y.%m.%d %H:%M') for i in range(len(tmp_tstr))]
+        tmp_p = list(tmp[5])
+        self.all_t = np.array(tmp_t[::-1])
+        self.all_p = np.array(tmp_p[::-1])
 
     def quant(self, f):
         fc = f.copy()
         fc[np.where(np.abs(fc) < self.q_threshold)] = 0
         return np.sign(fc)
 
-    def set_t_p_r(self, all_t, all_p):
-        self.t = all_t[self.init_t:self.init_t+self.T+self.M+1]
-        self.p = all_p[self.init_t:self.init_t+self.T+self.M+1]
+    def set_all_t_p(self, _all_t, _all_p):
+        self.all_t = _all_t
+        self.all_p = _all_p
+
+    def set_w(self, _w):
+        self.w = _w
+
+    def set_t_p_r(self):
+        self.t = self.all_t[self.init_t:self.init_t+self.T+self.M+1]
+        self.p = self.all_p[self.init_t:self.init_t+self.T+self.M+1]
         self.r = -np.diff(self.p)
 
     def set_x_F(self):
@@ -202,6 +205,13 @@ class TradingRRL(object):
         print("Epoch loop end. Optimized sharp's ratio is " + str(self.S) + ".")
         print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
 
+    def save_weight(self):
+        pd.DataFrame(self.w).to_csv("w.csv", header=False, index=False)
+        pd.DataFrame(self.epoch_S).to_csv("epoch_S.csv", header=False, index=False)
+        
+    def load_weight(self):
+        tmp = pd.read_csv("w.csv", header=None)
+        self.w = tmp.T.values[0]
 
 
 def plot_hist(n_tick, R):
@@ -216,18 +226,6 @@ def plot_hist(n_tick, R):
     plt.bar(tick_center, tick_val, width=tick)
     plt.grid()
     plt.show()
-
-
-def save_weights(r, epoch_S, w):
-    train_result = {"r": r, "epoch_S": epoch_S, "w": w}
-    with open("./train_result.pickle", mode="wb") as f:
-        pickle.dump(train_result, f)
-
-
-def load_weights():
-    with open("./train_result.pickle", mode="rb") as f:
-        train_result = pickle.load(f)
-    return train_result
 
 
 if __name__ == "__main__":

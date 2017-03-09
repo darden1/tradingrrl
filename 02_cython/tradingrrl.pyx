@@ -16,28 +16,15 @@ import pandas as pd
 from datetime import datetime as dt
 import matplotlib.pyplot as plt
 
-class ChartData(object):
-    def __init__(self):
-        self.all_t = None # time
-        self.all_p = None # price
-
-    def load_csv(self, fname):
-        tmp = pd.read_csv(fname, header=None)
-        tmp_tstr = tmp[0] +" " + tmp[1]
-        tmp_t = [dt.strptime(tmp_tstr[i], '%Y.%m.%d %H:%M') for i in range(len(tmp_tstr))]
-        tmp_p = list(tmp[5])
-        self.all_t = np.array(tmp_t[::-1])
-        self.all_p = np.array(tmp_p[::-1])
-
-
 cdef class TradingRRL(object):
     cdef public int T
     cdef public int M
     cdef public int init_t
-    cdef public double q_threshold
     cdef public double mu
     cdef public double sigma
     cdef public double rho
+    cdef public np.ndarray all_t
+    cdef public np.ndarray all_p
     cdef public np.ndarray t
     cdef public np.ndarray p
     cdef public np.ndarray r
@@ -48,6 +35,7 @@ cdef class TradingRRL(object):
     cdef public np.ndarray epoch_S
     cdef public int n_epoch
     cdef public int progress_period
+    cdef public double q_threshold
     cdef public np.ndarray sumR
     cdef public np.ndarray sumR2
     cdef public double A
@@ -63,14 +51,15 @@ cdef class TradingRRL(object):
     cdef public np.ndarray dFdw
     cdef public np.ndarray dSdw
 
-    def __init__(self, T=1000, M=200, init_t=10000, q_threshold=0.7, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
+    def __init__(self, T=1000, M=200, init_t=10000, mu=10000, sigma=0.04, rho=1.0, n_epoch=10000):
         self.T = T
         self.M = M
         self.init_t = init_t
-        self.q_threshold = q_threshold
         self.mu = mu
         self.sigma = sigma
         self.rho = rho
+        self.all_t = None
+        self.all_p = None
         self.t = None
         self.p = None
         self.r = None
@@ -81,6 +70,7 @@ cdef class TradingRRL(object):
         self.epoch_S = np.empty(0, dtype=np.float64)
         self.n_epoch = n_epoch
         self.progress_period = 100
+        self.q_threshold = 0.7
         self.sumR = np.zeros(T, dtype=np.float64)
         self.sumR2 = np.zeros(T, dtype=np.float64)
         self.A = 0.0
@@ -96,14 +86,29 @@ cdef class TradingRRL(object):
         self.dFdw = np.zeros(M+2, dtype=np.float64)
         self.dSdw = np.zeros(M+2, dtype=np.float64)
 
+    def load_csv(self, fname):
+        tmp = pd.read_csv(fname, header=None)
+        tmp_tstr = tmp[0] +" " + tmp[1]
+        tmp_t = [dt.strptime(tmp_tstr[i], '%Y.%m.%d %H:%M') for i in range(len(tmp_tstr))]
+        tmp_p = list(tmp[5])
+        self.all_t = np.array(tmp_t[::-1])
+        self.all_p = np.array(tmp_p[::-1])
+
     def quant(self, f):
         fc = f.copy()
         fc[np.where(np.abs(fc) < self.q_threshold)] = 0
         return np.sign(fc)
 
-    def set_t_p_r(self, all_t, all_p):
-        self.t = all_t[self.init_t:self.init_t+self.T+self.M+1]
-        self.p = all_p[self.init_t:self.init_t+self.T+self.M+1]
+    def set_all_t_p(self, _all_t, _all_p):
+        self.all_t = _all_t
+        self.all_p = _all_p
+
+    def set_w(self, _w):
+        self.w = _w
+
+    def set_t_p_r(self):
+        self.t = self.all_t[self.init_t:self.init_t+self.T+self.M+1]
+        self.p = self.all_p[self.init_t:self.init_t+self.T+self.M+1]
         self.r = -np.diff(self.p)
 
     def set_x_F(self):
@@ -236,6 +241,13 @@ cdef class TradingRRL(object):
         print("Epoch loop end. Optimized sharp's ratio is " + str(self.S) + ".")
         print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
 
+    def save_weight(self):
+        pd.DataFrame(self.w).to_csv("w.csv", header=False, index=False)
+        pd.DataFrame(self.epoch_S).to_csv("epoch_S.csv", header=False, index=False)
+        
+    def load_weight(self):
+        tmp = pd.read_csv("w.csv", header=None)
+        self.w = tmp.T.values[0]
 
 
 def plot_hist(n_tick, R):
@@ -250,15 +262,3 @@ def plot_hist(n_tick, R):
     plt.bar(tick_center,tick_val, width=tick)
     plt.grid()
     plt.show()
-
-
-def save_weights(r, epoch_S, w):
-    train_result = {"r": r, "epoch_S": epoch_S, "w": w}
-    with open("./train_result.pickle", mode="wb") as f:
-        pickle.dump(train_result, f)
-
-
-def load_weights():
-    with open("./train_result.pickle", mode="rb") as f:
-        train_result = pickle.load(f)
-    return train_result
