@@ -2,7 +2,7 @@
 - Type following for compiling tradingrrl.pyx.
 - tradingrrl.pyd will be created. You can import it in python script.
 ```
-python .\setup.py build_ext -i
+python ./setup.py build_ext -i
 ```
 
 # Update backports_abc
