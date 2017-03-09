@@ -13,7 +13,7 @@ def main():
     M = 200
     mu = 10000
     sigma = 0.04
-    rho = 1.0 - 1.0e-10
+    rho = 1.0
     n_epoch = 10000
 
     # RRL agent with initial weight.
