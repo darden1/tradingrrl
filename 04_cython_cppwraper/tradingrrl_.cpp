@@ -106,16 +106,7 @@ namespace tradingrrl{
             return -1.0;
         }
     }
-    
-    void cppTradingRRL::set_all_t_p(vector<string> _all_t, vector<double> _all_p){
-        all_t = _all_t;
-        all_p = _all_p;
-    }
 
-    void cppTradingRRL::set_w(vector<double> _w){
-        w = _w;
-    }
-    
     void cppTradingRRL::set_t_p_r(){
         int i;
         for(i=0 ; i<T+M; ++i ){

@@ -21,13 +21,12 @@ def main():
     ini_rrl.load_csv(fname)
     ini_rrl.set_t_p_r()
     ini_rrl.calc_dSdw()
-    ini_rrl.update_val()
     # RRL agent for training 
     rrl = TradingRRL(T, M, init_t,  mu, sigma, rho, n_epoch)
-    rrl.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl.all_t = ini_rrl.all_t
+    rrl.all_p = ini_rrl.all_p
     rrl.set_t_p_r()
     rrl.fit()
-    rrl.update_val()
 
     # Plot results.
     # Training for initial term T.
@@ -66,17 +65,18 @@ def main():
     # Prediction for next term T with optimized weight.
     # RRL agent with initial weight.
     ini_rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
-    ini_rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    ini_rrl_f.all_t = ini_rrl.all_t
+    ini_rrl_f.all_p = ini_rrl.all_p
     ini_rrl_f.set_t_p_r()
     ini_rrl_f.calc_dSdw()
-    ini_rrl_f.update_val()
+
     # RRL agent with optimized weight.
     rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
-    rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl_f.all_t = ini_rrl.all_t
+    rrl_f.all_p = ini_rrl.all_p
     rrl_f.set_t_p_r()
-    rrl_f.set_w(rrl.w)
+    rrl_f.w = rrl.w
     rrl_f.calc_dSdw()
-    rrl_f.update_val()
 
     fig, ax = plt.subplots(nrows=3, figsize=(15, 10))
     t_f = np.linspace(rrl.T+1, rrl.T+rrl.T, rrl.T)[::-1]

@@ -60,8 +60,6 @@ namespace tradingrrl{
             void load_csv(string fname);
             int quant(double f, double threshold);
             double sign(double f);
-            void set_all_t_p(vector<string> _all_t, vector<double> _all_p);
-            void set_w(vector<double> _w);
             void set_t_p_r();
             void set_x_F();
             void calc_R();

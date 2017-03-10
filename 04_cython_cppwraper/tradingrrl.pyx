@@ -3,7 +3,13 @@ from libcpp.vector cimport vector
 
 cdef extern from "tradingrrl_.h" namespace "tradingrrl":
     cdef cppclass cppTradingRRL:
-        cppTradingRRL(int T, int M, int init_t, double  mu, double sigma, double rho, int n_epoch)
+        cppTradingRRL(int T, int M, int init_t, double  mu, double sigma, double rho, int n_epoch) except +
+        int T
+        int M
+        int init_t
+        double  mu
+        double sigma
+        double rho
         int n_epoch
         int progress_period
         double q_threshold
@@ -35,8 +41,6 @@ cdef extern from "tradingrrl_.h" namespace "tradingrrl":
         void load_csv(string fname)
         int quant(double f, double threshold)
         double sign(double f)
-        void set_all_t_p(vector[string] _all_pt, vector[double] _all_p)
-        void set_w(vector[double] _w)
         void set_t_p_r()
         void set_x_F()
         void calc_R()
@@ -49,82 +53,12 @@ cdef extern from "tradingrrl_.h" namespace "tradingrrl":
       
 cdef class TradingRRL(object):
     cdef cppTradingRRL* crrl
-    
-    cdef public int T
-    cdef public int M
-    cdef public int init_t
-    cdef public double mu
-    cdef public double sigma
-    cdef public double rho
-    cdef public int n_epoch
-    cdef public int progress_period
-    cdef public double q_threshold
-    cdef public vector[string] all_t
-    cdef public vector[double] all_p
-    cdef public vector[string] t
-    cdef public vector[double] p
-    cdef public vector[double] r
-    cdef public vector[ vector[double] ] x
-    cdef public vector[double] F
-    cdef public vector[double] R
-    cdef public vector[double] w
-    cdef public vector[double] epoch_S
-    cdef public vector[double] sumR
-    cdef public vector[double] sumR2
-    cdef public double A
-    cdef public double B
-    cdef public double S
-    cdef public double dSdA
-    cdef public double dSdB
-    cdef public double dAdR
-    cdef public vector[double] dBdR
-    cdef public vector[double] dRdF
-    cdef public vector[double] dRdFp
-    cdef public vector[double] dFpdw
-    cdef public vector[double] dFdw
-    cdef public vector[double] dSdw
-   
+
     def __cinit__(self,int T=1000, int M=200, int init_t=10000, double  mu=10000, double sigma=0.04, double rho=1.0, int n_epoch=10000):
         self.crrl = new cppTradingRRL(T, M, init_t, mu, sigma, rho, n_epoch)
-        self.T = T
-        self.M = M
-        self.init_t = init_t
-        self.mu = mu
-        self.sigma = sigma
-        self.rho = rho
         
     def __dealloc(self):
         del self.crrl
-   
-    def update_val(self):
-        self.w = self.crrl.w
-        self.all_t = self.crrl.all_t
-        self.all_p = self.crrl.all_p
-        self.t = self.crrl.t 
-        self.p = self.crrl.p
-        self.r = self.crrl.r
-        self.x = self.crrl.x
-        self.F = self.crrl.F
-        self.R = self.crrl.R
-        self.w = self.crrl.w 
-        self.epoch_S = self.crrl.epoch_S
-        self.n_epoch = self.crrl.n_epoch
-        self.progress_period = self.crrl.progress_period 
-        self.q_threshold = self.crrl.q_threshold
-        self.sumR = self.crrl.sumR
-        self.sumR2 =self.crrl.sumR2 
-        self.A = self.crrl.A
-        self.B = self.crrl.B
-        self.S = self.crrl.S
-        self.dSdA = self.crrl.dSdA
-        self.dSdB = self.crrl.dSdB
-        self.dAdR = self.crrl.dAdR
-        self.dBdR = self.crrl.dBdR
-        self.dRdF = self.crrl.dRdF
-        self.dRdFp = self.crrl.dRdFp
-        self.dFpdw = self.crrl.dFpdw
-        self.dFdw = self.crrl.dFdw
-        self.dSdw = self.crrl.dSdw
 
     def load_csv(self, str fname):
         return self.crrl.load_csv(fname)
@@ -134,12 +68,6 @@ cdef class TradingRRL(object):
 
     def sign(self, double f):
         return self.crrl.sign(f)
-
-    def set_all_t_p(self, vector[string] _all_t, vector[double] _all_p):
-        return self.crrl.set_all_t_p(_all_t, _all_p)
-
-    def set_w(self, vector[double] _w):
-        return self.crrl.set_w(_w)
 
     def set_t_p_r(self):
         return self.crrl.set_t_p_r()
@@ -167,3 +95,136 @@ cdef class TradingRRL(object):
 
     def load_weight(self):
         return self.crrl.load_weight()
+
+    property T:
+        def __get__(self): return self.crrl.T
+        def __set__(self, T): self.crrl.T = T
+
+    property M:
+        def __get__(self): return self.crrl.M
+        def __set__(self, M): self.crrl.M = M
+
+    property init_t:
+        def __get__(self): return self.crrl.init_t
+        def __set__(self, init_t): self.crrl.init_t = init_t
+
+    property mu:
+        def __get__(self): return self.crrl.mu
+        def __set__(self, mu): self.crrl.mu = mu
+
+    property sigma:
+        def __get__(self): return self.crrl.sigma
+        def __set__(self, sigma): self.crrl.sigma = sigma
+
+    property rho:
+        def __get__(self): return self.crrl.rho
+        def __set__(self, rho): self.crrl.rho = rho
+
+    property n_epoch:
+        def __get__(self): return self.crrl.n_epoch
+        def __set__(self, n_epoch): self.crrl.n_epoch = n_epoch
+
+    property progress_period:
+        def __get__(self): return self.crrl.progress_period
+        def __set__(self, progress_period): self.crrl.progress_period = progress_period
+
+    property q_threshold:
+        def __get__(self): return self.crrl.q_threshold
+        def __set__(self, q_threshold): self.crrl.q_threshold = q_threshold
+
+    property all_t:
+        def __get__(self): return self.crrl.all_t
+        def __set__(self, all_t): self.crrl.all_t = all_t
+
+
+    property all_p:
+        def __get__(self): return self.crrl.all_p
+        def __set__(self, all_p): self.crrl.all_p = all_p
+
+    property t:
+        def __get__(self): return self.crrl.t
+        def __set__(self, t): self.crrl.t = t
+
+    property p:
+        def __get__(self): return self.crrl.p
+        def __set__(self, p): self.crrl.p = p
+
+    property r:
+        def __get__(self): return self.crrl.r
+        def __set__(self, r): self.crrl.r = r
+
+    property x:
+        def __get__(self): return self.crrl.x
+        def __set__(self, x): self.crrl.x = x
+
+    property F:
+        def __get__(self): return self.crrl.F
+        def __set__(self, F): self.crrl.F = F
+
+    property R:
+        def __get__(self): return self.crrl.R
+        def __set__(self, R): self.crrl.R = R
+
+    property w:
+        def __get__(self): return self.crrl.w
+        def __set__(self, w): self.crrl.w = w
+
+    property epoch_S:
+        def __get__(self): return self.crrl.epoch_S
+        def __set__(self, epoch_S): self.crrl.epoch_S = epoch_S
+
+    property sumR:
+        def __get__(self): return self.crrl.sumR
+        def __set__(self, sumR): self.crrl.sumR = sumR
+
+    property sumR2:
+        def __get__(self): return self.crrl.sumR2
+        def __set__(self, sumR2): self.crrl.sumR2 = sumR2
+
+    property A:
+        def __get__(self): return self.crrl.A
+        def __set__(self, A): self.crrl.A = A
+
+    property B:
+        def __get__(self): return self.crrl.B
+        def __set__(self, B): self.crrl.B = B
+
+    property S:
+        def __get__(self): return self.crrl.S
+        def __set__(self, S): self.crrl.S = S
+
+    property dSdA:
+        def __get__(self): return self.crrl.dSdA
+        def __set__(self, dSdA): self.crrl.dSdA = dSdA
+
+    property dSdB:
+        def __get__(self): return self.crrl.dSdB
+        def __set__(self, dSdB): self.crrl.dSdB = dSdB
+
+    property dAdR:
+        def __get__(self): return self.crrl.dAdR
+        def __set__(self, dAdR): self.crrl.dAdR = dAdR
+
+    property dBdR:
+        def __get__(self): return self.crrl.dBdR
+        def __set__(self, dBdR): self.crrl.dBdR = dBdR
+
+    property dRdF:
+        def __get__(self): return self.crrl.dRdF
+        def __set__(self, dRdF): self.crrl.dRdF = dRdF
+
+    property dRdFp:
+        def __get__(self): return self.crrl.dRdFp
+        def __set__(self, dRdFp): self.crrl.dRdFp = dRdFp
+
+    property dFpdw:
+        def __get__(self): return self.crrl.dFpdw
+        def __set__(self, dFpdw): self.crrl.dFpdw = dFpdw
+
+    property dFdw:
+        def __get__(self): return self.crrl.dFdw
+        def __set__(self, dFdw): self.crrl.dFdw = dFdw
+
+    property dSdw:
+        def __get__(self): return self.crrl.dSdw
+        def __set__(self, dSdw): self.crrl.dSdw = dSdw

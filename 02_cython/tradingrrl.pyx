@@ -99,13 +99,6 @@ cdef class TradingRRL(object):
         fc[np.where(np.abs(fc) < self.q_threshold)] = 0
         return np.sign(fc)
 
-    def set_all_t_p(self, _all_t, _all_p):
-        self.all_t = _all_t
-        self.all_p = _all_p
-
-    def set_w(self, _w):
-        self.w = _w
-
     def set_t_p_r(self):
         self.t = self.all_t[self.init_t:self.init_t+self.T+self.M+1]
         self.p = self.all_p[self.init_t:self.init_t+self.T+self.M+1]

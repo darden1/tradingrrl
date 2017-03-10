@@ -26,7 +26,8 @@ def main():
     ini_rrl.calc_dSdw()
     # RRL agent for training 
     rrl = TradingRRL(T, M, init_t,  mu, sigma, rho, n_epoch)
-    rrl.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl.all_t = ini_rrl.all_t
+    rrl.all_p = ini_rrl.all_p
     rrl.set_t_p_r()
     rrl.fit()
 
@@ -67,14 +68,16 @@ def main():
     # Prediction for next term T with optimized weight.
     # RRL agent with initial weight.
     ini_rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
-    ini_rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    ini_rrl_f.all_t = ini_rrl.all_t
+    ini_rrl_f.all_p = ini_rrl.all_p
     ini_rrl_f.set_t_p_r()
     ini_rrl_f.calc_dSdw()
     # RRL agent with optimized weight.
     rrl_f = TradingRRL(T, M, init_t-T, mu, sigma, rho, n_epoch)
-    rrl_f.set_all_t_p(ini_rrl.all_t, ini_rrl.all_p)
+    rrl_f.all_t = ini_rrl.all_t
+    rrl_f.all_p = ini_rrl.all_p
     rrl_f.set_t_p_r()
-    rrl_f.set_w(rrl.w)
+    rrl_f.w = rrl.w
     rrl_f.calc_dSdw()
 
     fig, ax = plt.subplots(nrows=3, figsize=(15, 10))
@@ -134,13 +137,6 @@ class TradingRRL(object):
         fc = f.copy()
         fc[np.where(np.abs(fc) < self.q_threshold)] = 0
         return np.sign(fc)
-
-    def set_all_t_p(self, _all_t, _all_p):
-        self.all_t = _all_t
-        self.all_p = _all_p
-
-    def set_w(self, _w):
-        self.w = _w
 
     def set_t_p_r(self):
         self.t = self.all_t[self.init_t:self.init_t+self.T+self.M+1]
