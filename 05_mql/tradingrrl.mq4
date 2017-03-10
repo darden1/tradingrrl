@@ -5,146 +5,119 @@
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2014, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
-#property version   "1.00"
+#property version   "1.01"
 #property strict
 
 #define MAGIC 20170214
 
-extern int    slippage = 2;
-extern double lots = 0.1;
-extern bool stop_flag = False;
-extern bool limit_flag = False;
-extern double stop_points = 1000;
-extern double limit_points = 1000;
+extern int    slippage        = 2;
+extern double lots            = 0.1;
+extern bool   stop_flag       = False;
+extern bool   limit_flag      = False;
+extern double stop_points     = 1000;
+extern double limit_points    = 1000;
 
-extern int T = 150;
-extern int M = 30;
-extern double q_threshold = 0.7;
-extern double mu = 10000;
-extern double sigma = 0.04;
-extern double alpha = 2.0;
-extern int n_epoch = 10000;
-extern int n_tick_update_w = 150;
+extern int    T               = 150;
+extern int    M               = 30;
+extern double mu              = 10000;
+extern double sigma           = 0.04;
+extern double rho             = 2.0;
+extern double q_threshold     = 0.7;
+extern int    n_epoch         = 10000;
+extern int    n_tick_update_w = 100;
+extern bool   write_log       = True;
 
-extern bool write_log = True;
-
-int n_tick;
-bool init_flag;
-double pre_F;
-double r[], w[];
+int    n_tick;
+bool   init_flag;
+double Fp;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
-int OnInit()
-  {
-//---
-   n_tick = 0;
-   init_flag =True;
-   pre_F = 0.0;
-   ArrayResize(r, T+M);
-   ArrayResize(w, M+2);
-   init_w(w);
-   
-//---
+int OnInit(){
+   n_tick    = 0;
+   init_flag = True;
+   Fp        = 0.0;
    return(INIT_SUCCEEDED);
-  }
+}
 //+------------------------------------------------------------------+
 //| Expert deinitialization function                                 |
 //+------------------------------------------------------------------+
-void OnDeinit(const int reason)
-  {
-//---
+void OnDeinit(const int reason){
    
-  }
+}
+
 //+------------------------------------------------------------------+
-//| My functions                                                     |
+//| Market functions                                                 |
 //+------------------------------------------------------------------+
 void closeBuyPos(){  
    int res;
-   for(int i=OrdersTotal()-1; i>=0; i--)
-   {
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false)continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol())continue;
-      if(OrderType()==OP_BUY)
-         {  
-               res = OrderClose(OrderTicket(),OrderLots(),Bid,slippage,OrangeRed);
-               continue;
-         }
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_BUY){  
+         res = OrderClose(OrderTicket(),OrderLots(),Bid,slippage,OrangeRed);
+         continue;
+      }
    }
 }
 
 void closeSellPos(){  
    int res;
-   for(int i=OrdersTotal()-1; i>=0; i--)
-   {
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false)continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol())continue;
-      if(OrderType()==OP_SELL)
-         {
-               res = OrderClose(OrderTicket(),OrderLots(),Ask,slippage,OrangeRed);
-               continue;
-         }
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_SELL){
+         res = OrderClose(OrderTicket(),OrderLots(),Ask,slippage,OrangeRed);
+         continue;
+      }
    }
 }
 
 int countBuyPos(){  
    int n_buy_pos = 0;
-   
-   for(int i=OrdersTotal()-1; i>=0; i--)
-   {
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false)continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol())continue;
-      if(OrderType()==OP_BUY)
-         {  
-               n_buy_pos++;
-               continue;
-         }
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_BUY){  
+         n_buy_pos++;
+         continue;
+      }
    }
    return n_buy_pos;
 }
 
 int countSellPos(){  
    int n_sell_pos = 0;
-   for(int i=OrdersTotal()-1; i>=0; i--)
-   {
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false)continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol())continue;
-      if(OrderType()==OP_SELL)
-         {
-               n_sell_pos++;
-               continue;
-         }
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_SELL){
+         n_sell_pos++;
+         continue;
+      }
    }
    return n_sell_pos;
 }
 
-
-void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double limit_points)
-{  
+void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double limit_points){  
    int res;
-   for(int i=0; i<OrdersTotal(); i++)
-   {
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false)continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol())continue;
-      //---Position is buy
-      if(OrderType()==OP_BUY)
-      {  
-         if(OrderStopLoss()==0)
-         {
+   for(int i=0; i<OrdersTotal(); i++){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      //--- For long position.
+      if(OrderType()==OP_BUY){  
+         if(OrderStopLoss()==0){
             res = OrderModify(OrderTicket(), OrderOpenPrice(),
                               (Bid-(stop_points-2)*Point)*stop_flag,
                               (Bid+(limit_points-2)*Point)*limit_flag,
                               0, ForestGreen);
             continue;
          }
-
       }
-      //---Position is sell
-      if(OrderType()==OP_SELL)
-      {
-         if(OrderStopLoss()==0)
-         {
+      //--- For short position.
+      if(OrderType()==OP_SELL){
+         if(OrderStopLoss()==0){
             res = OrderModify(OrderTicket(), OrderOpenPrice(),
                               (Ask+(stop_points-2)*Point)*stop_flag,
                               (Ask-(limit_points-2)*Point)*limit_flag,
@@ -155,8 +128,133 @@ void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double 
    }
 }
 
+//+------------------------------------------------------------------+
+//| RRL agent                                                        |
+//+------------------------------------------------------------------+
+class TradingRRL{
+    public:
+        /*
+        int T;
+        int M;
+        double mu;
+        double sigma;
+        double rho;
+        int n_epoch;
+        double q_threshold;
+        */
+        int progress_period;
 
-double sign(double f){
+        double r[];
+        double x[];
+        double F[];
+        double R[];
+        double w[];
+        double epoch_S[];
+        double sumR[];
+        double sumR2[];
+        double A;
+        double B;
+        double S;
+        double dSdA;
+        double dSdB;
+        double dAdR;
+        double dBdR[];
+        double dRdF[];
+        double dRdFp[];
+        double dFpdw[];
+        double dFdw[];
+        double dSdw[];
+        
+        // Constructor
+        //TradingRRL(int T, int M, double mu, double sigma, double rho, int n_epoch, double q_threshold);
+        TradingRRL();
+        // Destructor
+        ~TradingRRL();
+        // Menber functions
+        int quant(double f);
+        double sign(double f);
+        double tanh(double f);
+        void set_r();
+        void set_x(int t_index, double Fp);
+        double calc_F(int t_index, double Fp);
+        void set_F();
+        void calc_R();
+        void calc_sumR();
+        void calc_dSdw();
+        void update_w();
+        void fit();
+        void save_weight();
+        void load_weight();
+};
+
+// Constructor
+//TradingRRL::TradingRRL(int T, int M, double mu, double sigma, double rho, int n_epoch, double q_threshold){
+TradingRRL::TradingRRL(){
+   /*
+   // It do not work well, when the names of the member variables are the same with the ones of the global variables.
+   T = T;
+   M = M;
+   mu =mu;
+   sigma = sigma;
+   rho = rho;
+   n_epoch = n_epoch;
+   q_threshold = q_threshold;
+   */
+   progress_period = 100;
+   A = 0.0;
+   B = 0.0;
+   S = 0.0;
+   dSdA = 0.0;
+   dSdB = 0.0;
+   dAdR = 0.0;
+
+   ArrayResize(r, T+M);
+   ArrayResize(x, M+2);
+   ArrayResize(F, T+1);
+   ArrayResize(R, T);
+   ArrayResize(w, M+2);
+   ArrayResize(sumR, T+1);
+   ArrayResize(sumR2, T+1);
+   ArrayResize(dBdR, T);
+   ArrayResize(dRdF, T+1);
+   ArrayResize(dRdFp, T+1);
+   ArrayResize(dFdw, M+2);
+   ArrayResize(dFpdw, M+2);
+   ArrayResize(dSdw, M+2);
+   ArrayResize(epoch_S, n_epoch);
+   
+   ArrayInitialize(x, 0.0);
+   ArrayInitialize(F, 0.0);
+   ArrayInitialize(R, 0.0);
+   ArrayInitialize(w, 1.0);
+   ArrayInitialize(sumR, 0.0);
+   ArrayInitialize(sumR2, 0.0);
+   ArrayInitialize(dBdR, 0.0);
+   ArrayInitialize(dRdF, 0.0);
+   ArrayInitialize(dRdFp, 0.0);
+   ArrayInitialize(dFdw, 0.0);
+   ArrayInitialize(dFpdw, 0.0);
+   ArrayInitialize(dSdw, 0.0);
+   ArrayInitialize(epoch_S, 0.0);
+}
+
+// Destructor
+TradingRRL::~TradingRRL(){}
+
+// Menber functions
+int TradingRRL::quant(double f){
+    if(MathAbs(f) < q_threshold){
+        return 0;
+    }
+    else if(f>0.0){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
+
+double TradingRRL::sign(double f){
     if(f==0.0){
         return 0.0;
     }
@@ -168,30 +266,7 @@ double sign(double f){
     }
 }
 
-int quantizer(double f){
-   if(MathAbs(f) < q_threshold){
-      return 0;
-   }
-   else if(f > 0.0)   {
-      return 1;
-   }
-   else   {
-      return -1;
-   }
-}
-
-double dot(double &w[], double &x[]){
-   double wdotx = 0.0;
-   for(int i=0; i<M+2; i++)
-   {
-      wdotx += w[i]*x[i];
-      //Print("w:" + w[i] +"/x:" + x[i]);
-   }
-   
-   return wdotx;
-}
-
-double tanh(double f){
+double TradingRRL::tanh(double f){
    if(MathAbs(f)>20.0){
       if(f>0.0){
          return 1.0;
@@ -203,128 +278,144 @@ double tanh(double f){
    return (MathExp(f)-MathExp(-f))/(MathExp(f)+MathExp(-f));
 }
 
-void set_r(double &r[]){
-   for(int i=0; i<T+M; i++)
-   {
+void TradingRRL::set_r(){
+   for(int i=0; i<T+M; ++i){
       r[i] = Close[i] - Close[i+1];
    }
 }
 
-void init_w(double &w[]){
-   for(int i=0; i<M+2; i++)
-   {
-      w[i] = 1.0;
-   }
-}
-
-void set_x(int t_index, double &x[], double &r[], double l_pre_F){
+void TradingRRL::set_x(int t_index, double _Fp){
    x[0] = 1.0;
-   x[M+2-1] = l_pre_F;
-   for( int j=1 ; j<M+2-1 ; ++j ){
+   x[M+2-1] = _Fp;
+   for(int j=1 ; j<M+2-1 ; ++j ){
        x[j] = r[t_index+(j-1)];
    }
-
 }
 
-
-double get_F(int t_index, double &r[], double &w[], double l_pre_F){
-   double x[];
-   double wdotx, f;
-   ArrayResize(x, M+2);
-   set_x(t_index, x, r, l_pre_F);
-   wdotx = dot(w,x);
-   f = tanh(wdotx);
-   return f;
+double TradingRRL::calc_F(int t_index, double _Fp){
+   set_x(t_index, _Fp);
+   double wdotx = 0.0;
+   for(int j=0 ; j<M+2 ; ++j ){
+      wdotx += w[j]*x[j];
+   }
+   return tanh(wdotx);
 }
 
-double update_w(double &r[], double &w[]){
-   double wdotx, A, B, S, dSdA, dSdB, dAdR;
-   double x[], F[], R[], sum_R[], sum_R2[], dBdR[], dRdF[], dRdFm[], pre_dFdw[], dFdw[], dSdw[];
-   ArrayResize(x, M+2);
-   ArrayResize(F, T+1);
-   ArrayResize(R, T);
-   ArrayResize(sum_R, T+1);
-   ArrayResize(sum_R2, T+1);
-   ArrayResize(dBdR, T);
-   ArrayResize(dRdF, T+1);
-   ArrayResize(dRdFm, T+1);
-   ArrayResize(dFdw, M+2);
-   ArrayResize(pre_dFdw, M+2);
-   ArrayResize(dSdw, M+2);
-
-   sum_R[T] =0.0;
-   sum_R2[T] =0.0;
-   F[T] = 0.0;
-   
-   for( int i=T-1 ; i>=0 ; --i ){
-      F[i] = get_F(i, r, w, F[i+1]);
-      R[i]  = mu*(F[i+1]*r[i] - sigma*MathAbs(F[i] - F[i+1]));
-      sum_R[i] = sum_R[i+1] + R[i];
-      sum_R2[i] = sum_R2[i+1] + R[i]*R[i];
-      dBdR[i] = 2.0/T*R[i];
-      dRdF[i]    = - mu*sigma*sign(F[i] - F[i+1]);
-      dRdFm[i]   =   mu*r[i] + mu*sigma*sign(F[i] - F[i+1]);
-   }
-        
-   A = sum_R[0]/T;
-   B = sum_R2[0]/T;
-   S = A/sqrt(B-A*A);
-   
-   dSdA = (1+S*S)/sqrt(B-A*A);
-   dSdB = -S*S/2/A/sqrt(B-A*A);
-   dAdR = 1.0/T;   
-   
-   
-   for(int i=T-1 ; i>=0 ; --i ){
-      if(i==T-1){
-          for( int j=0 ; j<M+2; ++j ){
-              pre_dFdw[j] = 0.0;
-              dSdw[j] = 0.0;
-          }
-      }
-      else{
-          for( int j=0 ; j<M+2; ++j ){
-              pre_dFdw[j] = dFdw[j];
-          }
-      }
-      set_x(i, x, r, F[i+1]);
-      for( int j=0 ; j<M+2; ++j ){
-          dFdw[j]=(1 - F[i]*F[i])*(x[j] + w[M+2-1]*pre_dFdw[j]);
-          dSdw[j]+=(dSdA*dAdR + dSdB*dBdR[i])*(dRdF[i]*dFdw[j] + dRdFm[i]*pre_dFdw[j]);
-      }
-   }
-   
-   // --- Update weight w
-   for( int j=0 ; j<M+2; ++j ){
-      w[j]+=alpha*dSdw[j];
-   }
-   return S;
- 
+void TradingRRL::set_F(){
+    for(int i=T-1 ; i>=0 ; --i ){
+        F[i] = calc_F(i, F[i+1]);
+    }
 }
 
-int file_output(string fname, double &array[]){
-   int handle= FileOpen(fname, FILE_WRITE|FILE_CSV);
+void TradingRRL::calc_R(){
+    int i;
+    for(i=T-1 ; i>=0 ; --i ){
+        R[i]  = mu*(F[i+1]*r[i] - sigma*MathAbs(F[i] - F[i+1]));
+    }
+}
+
+void TradingRRL::calc_sumR(){
+    sumR[T-1]  = R[T-1];
+    sumR2[T-1] = R[T-1]*R[T-1];
+    for(int i=T-2 ; i>=0 ; --i ){
+        sumR[i]  = sumR[i+1]  + R[i];
+        sumR2[i] = sumR2[i+1] + R[i]*R[i];
+    }
+}
+
+void TradingRRL::calc_dSdw(){
+    set_F();
+    calc_R();
+    calc_sumR();
+    A    = sumR[0]/T;
+    B    = sumR2[0]/T;
+    S    = A/sqrt(B-A*A);
+    dSdA = S*(1+S*S)/A;
+    dSdB = -S*S*S/2/A/A;
+    dAdR = 1.0/T;   
+    
+    for(int j=0 ; j<M+2; ++j ){
+        dFpdw[j] = 0.0;
+        dFdw[j]  = 0.0;
+        dSdw[j]  = 0.0;
+    }
+    for(int i=T-1 ; i>=0 ; --i ){
+        dBdR[i]  = 2.0/T*R[i];
+        dRdF[i]  = - mu*sigma*sign(F[i] - F[i+1]);
+        dRdFp[i] =   mu*r[i] + mu*sigma*sign(F[i] - F[i+1]);
+        for(int j=0 ; j<M+2; ++j ){
+            if(i!=T-1){
+                dFpdw[j] = dFdw[j];
+            }
+            set_x(i, F[i+1]);
+            dFdw[j]=(1.0 - F[i]*F[i])*(x[j] + w[M+2-1]*dFpdw[j]);
+            dSdw[j]+=(dSdA*dAdR + dSdB*dBdR[i])*(dRdF[i]*dFdw[j] + dRdFp[i]*dFpdw[j]);
+        }
+    }
+}
+
+void TradingRRL::update_w(){
+    for(int j=0 ; j<M+2; ++j ){
+        w[j] += rho * dSdw[j];
+    }
+}
+
+void TradingRRL::fit(){
+    int e_index;
+    ArrayInitialize(w, 1.0);
+    calc_dSdw();
+    Print("Epoch loop start. Initial sharp's ratio is " + DoubleToString(S) +".");
+    for(e_index=0; e_index<n_epoch; ++e_index){
+        calc_dSdw();
+        update_w();
+        epoch_S[e_index] = S;
+        if(e_index%progress_period == progress_period-1){
+            Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) +".");
+        }
+    }
+    Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) +".");
+    Print("Epoch loop end. Optimized sharp's ratio is " + DoubleToString(S) +".");
+}
+
+void TradingRRL::save_weight(){
+   int handle;
+   handle= FileOpen("w.csv", FILE_WRITE|FILE_CSV);
    if(handle>0)
    {
-      for(int i=0; i<ArraySize(array); ++i)
-      FileWrite(handle, array[i]);
+      for(int i=0; i<ArraySize(w); ++i)
+      FileWrite(handle, w[i]);
       FileClose(handle);
    }
-   return handle;
+   handle= FileOpen("epoch_S.csv", FILE_WRITE|FILE_CSV);
+   if(handle>0)
+   {
+      for(int i=0; i<ArraySize(epoch_S); ++i)
+      FileWrite(handle, epoch_S[i]);
+      FileClose(handle);
+   }
+   handle= FileOpen("r.csv", FILE_WRITE|FILE_CSV);
+   if(handle>0)
+   {
+      for(int i=0; i<ArraySize(r); ++i)
+      FileWrite(handle, r[i]);
+      FileClose(handle);
+   }
 }
+
 //+------------------------------------------------------------------+
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
-void OnTick()
-  {
-//---
-   // --- stop and limit
+void OnTick(){
+
+   // --- Place stop and limit.
    if(stop_flag || limit_flag){
       orderStopLimit(stop_flag, stop_points, limit_flag, limit_points);
    }
    
+   //---Evaluate only the first tick.
    if(Volume[0]>1 || IsTradeAllowed()==false) return;
    
+   //--- Wait until the number of bars become T+M.
    n_tick +=1;
    if(init_flag){
       if(Bars <= T+M){
@@ -336,64 +427,49 @@ void OnTick()
       init_flag = False;
       n_tick = 0;
    }
-   
-   
-  
-   //------ 
-   int res, qF, n_buy_pos, n_sell_pos;
-   double F;
-   set_r(r);
-   
-   //---
-   if(n_tick%n_tick_update_w==0){
+
+   //--- Training agent.
+   TradingRRL rrl();
+   if(n_tick % n_tick_update_w == 0){
       Print("Update weights");
-      double S;
-      double epoch_S[];
-      ArrayResize(epoch_S, n_epoch);
-      
-      init_w(w);
-      for(int e_index=1 ; e_index<=n_epoch; ++e_index){
-         S = update_w(r, w);
-         epoch_S[e_index-1] = S;
-         if(e_index%100==0){
-            Print("Epoch: " + IntegerToString(e_index) + "/" + IntegerToString(n_epoch));
-         }
-      }
-      if(write_log){
-         file_output("w_opt.csv", w);
-         file_output("r.csv", r);
-         file_output("epoch_S.csv", epoch_S);
-      }
+      rrl.set_r();
+      rrl.fit();
+      if(write_log) rrl.save_weight();
    }
    
-   
-   F = get_F(0, r, w, pre_F);
-   qF = quantizer(F);
-   pre_F = F;
+   //--- The agent decide action with optimized weight.
+   double F;
+   int qF;
+   rrl.set_r();
+   F  = rrl.calc_F(0, Fp);
+   qF = rrl.quant(F);
+   Fp = F;
+
+   //--- Place an order following agent action.
+   int res, n_buy_pos, n_sell_pos;
    
    n_buy_pos  = countBuyPos();
    n_sell_pos = countSellPos();
-
-   if(qF == 1)
-   {
-      if(n_buy_pos == 0)
-      {
+   
+   Print("F: " + DoubleToString(F));
+   //--- long
+   if(qF == 1){ 
+      if(n_buy_pos == 0){
          closeSellPos();
          res = OrderSend(Symbol(),OP_BUY,lots,Ask,slippage,0,0,"",MAGIC,0,Blue);
       }
    }
-   else if(qF == -1)
-   {
-      if(n_sell_pos == 0)
-      {
+   //--- short
+   else if(qF == -1){
+      if(n_sell_pos == 0){
          closeBuyPos();
          res = OrderSend(Symbol(),OP_SELL,lots,Bid,slippage,0,0,"",MAGIC,0,Red);
       }
    }
-   else
-   {
+   //--- neutral
+   else{
       closeBuyPos();
       closeSellPos();
    }
-  }
-//+------------------------------------------------------------------+
+   
+}
