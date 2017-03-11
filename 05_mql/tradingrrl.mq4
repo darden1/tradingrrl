@@ -5,7 +5,7 @@
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2014, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
-#property version   "1.01"
+#property version   "1.02"
 #property strict
 
 #define MAGIC 20170214
@@ -30,6 +30,7 @@ extern bool   write_log       = True;
 int    n_tick;
 bool   init_flag;
 double Fp;
+
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -173,6 +174,7 @@ class TradingRRL{
         // Menber functions
         int quant(double f);
         double sign(double f);
+        double dot(double &a[], double &b[]);
         double tanh(double f);
         void set_r();
         void set_x(int t_index, double Fp);
@@ -191,7 +193,7 @@ class TradingRRL{
 //TradingRRL::TradingRRL(int T, int M, double mu, double sigma, double rho, int n_epoch, double q_threshold){
 TradingRRL::TradingRRL(){
    /*
-   // It do not work well, when the names of the member variables are the same with the ones of the global variables.
+   // Member variables can't be initialized, when the names of the member variables are the same with the ones of the global variables.
    T = T;
    M = M;
    mu =mu;
@@ -266,6 +268,14 @@ double TradingRRL::sign(double f){
     }
 }
 
+double TradingRRL::dot(double &a[], double &b[]){
+   double adotb = 0.0;
+   for(int i=0; i<ArraySize(a); i++){
+      adotb += a[i]*b[i];
+   }
+   return adotb;
+}
+
 double TradingRRL::tanh(double f){
    if(MathAbs(f)>20.0){
       if(f>0.0){
@@ -294,11 +304,7 @@ void TradingRRL::set_x(int t_index, double _Fp){
 
 double TradingRRL::calc_F(int t_index, double _Fp){
    set_x(t_index, _Fp);
-   double wdotx = 0.0;
-   for(int j=0 ; j<M+2 ; ++j ){
-      wdotx += w[j]*x[j];
-   }
-   return tanh(wdotx);
+   return tanh(dot(w,x));
 }
 
 void TradingRRL::set_F(){
@@ -333,23 +339,18 @@ void TradingRRL::calc_dSdw(){
     dSdA = S*(1+S*S)/A;
     dSdB = -S*S*S/2/A/A;
     dAdR = 1.0/T;   
-    
-    for(int j=0 ; j<M+2; ++j ){
-        dFpdw[j] = 0.0;
-        dFdw[j]  = 0.0;
-        dSdw[j]  = 0.0;
-    }
+    ArrayInitialize(dFdw, 0.0);
+    ArrayInitialize(dFpdw, 0.0);
+    ArrayInitialize(dSdw, 0.0);
     for(int i=T-1 ; i>=0 ; --i ){
         dBdR[i]  = 2.0/T*R[i];
         dRdF[i]  = - mu*sigma*sign(F[i] - F[i+1]);
         dRdFp[i] =   mu*r[i] + mu*sigma*sign(F[i] - F[i+1]);
+        set_x(i, F[i+1]);
         for(int j=0 ; j<M+2; ++j ){
-            if(i!=T-1){
-                dFpdw[j] = dFdw[j];
-            }
-            set_x(i, F[i+1]);
-            dFdw[j]=(1.0 - F[i]*F[i])*(x[j] + w[M+2-1]*dFpdw[j]);
-            dSdw[j]+=(dSdA*dAdR + dSdB*dBdR[i])*(dRdF[i]*dFdw[j] + dRdFp[i]*dFpdw[j]);
+            if(i!=T-1) dFpdw[j] = dFdw[j];
+            dFdw[j]  = (1.0 - F[i]*F[i])*(x[j] + w[M+2-1]*dFpdw[j]);
+            dSdw[j] += (dSdA*dAdR + dSdB*dBdR[i])*(dRdF[i]*dFdw[j] + dRdFp[i]*dFpdw[j]);
         }
     }
 }
@@ -380,27 +381,32 @@ void TradingRRL::fit(){
 void TradingRRL::save_weight(){
    int handle;
    handle= FileOpen("w.csv", FILE_WRITE|FILE_CSV);
-   if(handle>0)
-   {
-      for(int i=0; i<ArraySize(w); ++i)
-      FileWrite(handle, w[i]);
+   if(handle>0){
+      for(int i=0; i<ArraySize(w); ++i){
+         FileWrite(handle, w[i]);
+      }
       FileClose(handle);
    }
    handle= FileOpen("epoch_S.csv", FILE_WRITE|FILE_CSV);
-   if(handle>0)
-   {
-      for(int i=0; i<ArraySize(epoch_S); ++i)
-      FileWrite(handle, epoch_S[i]);
+   if(handle>0){
+      for(int i=0; i<ArraySize(epoch_S); ++i){
+         FileWrite(handle, epoch_S[i]);
+      }
       FileClose(handle);
    }
+   /*
    handle= FileOpen("r.csv", FILE_WRITE|FILE_CSV);
-   if(handle>0)
-   {
-      for(int i=0; i<ArraySize(r); ++i)
-      FileWrite(handle, r[i]);
+   if(handle>0){
+      for(int i=0; i<ArraySize(r); ++i){
+         FileWrite(handle, r[i]);
+      }
       FileClose(handle);
    }
+   */
 }
+
+//--- Create TradingRRL object as global.
+TradingRRL rrl();
 
 //+------------------------------------------------------------------+
 //| Expert tick function                                             |
@@ -418,18 +424,12 @@ void OnTick(){
    //--- Wait until the number of bars become T+M.
    n_tick +=1;
    if(init_flag){
-      if(Bars <= T+M){
-         //---Create Bars;
-         //Print("CloseSize:" + ArraySize(Close));
-         //Print("Bars:" +Bars);
-         return;
-      }
+      if(Bars <= T+M) return;
       init_flag = False;
       n_tick = 0;
    }
 
    //--- Training agent.
-   TradingRRL rrl();
    if(n_tick % n_tick_update_w == 0){
       Print("Update weights");
       rrl.set_r();
