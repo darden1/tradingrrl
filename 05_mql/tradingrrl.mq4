@@ -101,7 +101,7 @@ int countSellPos(){
    return n_sell_pos;
 }
 
-void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double limit_points){  
+void orderStopLimit(bool _stop_flag, double _stop_points, bool _limit_flag, double _limit_points){  
    int res;
    for(int i=0; i<OrdersTotal(); i++){
       if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
@@ -110,8 +110,8 @@ void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double 
       if(OrderType()==OP_BUY){  
          if(OrderStopLoss()==0){
             res = OrderModify(OrderTicket(), OrderOpenPrice(),
-                              (Bid-(stop_points-2)*Point)*stop_flag,
-                              (Bid+(limit_points-2)*Point)*limit_flag,
+                              (Bid - (_stop_points  - 2) * Point) * _stop_flag,
+                              (Bid + (_limit_points - 2) * Point) * _limit_flag,
                               0, ForestGreen);
             continue;
          }
@@ -120,8 +120,8 @@ void orderStopLimit(bool stop_flag, double stop_points, bool limit_flag, double 
       if(OrderType()==OP_SELL){
          if(OrderStopLoss()==0){
             res = OrderModify(OrderTicket(), OrderOpenPrice(),
-                              (Ask+(stop_points-2)*Point)*stop_flag,
-                              (Ask-(limit_points-2)*Point)*limit_flag,
+                              (Ask + (_stop_points  - 2) * Point) * _stop_flag,
+                              (Ask - (_limit_points - 2) * Point) * _limit_flag,
                               0, ForestGreen);
             continue;
          }
@@ -363,18 +363,22 @@ void TradingRRL::update_w(){
 
 void TradingRRL::fit(){
     int e_index;
+    double tic, toc;
     ArrayInitialize(w, 1.0);
     calc_dSdw();
     Print("Epoch loop start. Initial sharp's ratio is " + DoubleToString(S) +".");
+    tic = GetTickCount()*1.0e-3;
     for(e_index=0; e_index<n_epoch; ++e_index){
         calc_dSdw();
         update_w();
         epoch_S[e_index] = S;
         if(e_index%progress_period == progress_period-1){
-            Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) +".");
+            toc = GetTickCount()*1.0e-3;
+            Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) + ". Elapsed time: " + DoubleToString(toc-tic, 4) + " sec.");
         }
     }
-    Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) +".");
+    toc = GetTickCount()*1.0e-3;
+    Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) + ". Elapsed time: " + DoubleToString(toc-tic, 4) + " sec.");
     Print("Epoch loop end. Optimized sharp's ratio is " + DoubleToString(S) +".");
 }
 
