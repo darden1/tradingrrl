@@ -5,7 +5,7 @@
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2014, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
-#property version   "1.02"
+#property version   "1.03"
 #property strict
 
 #define MAGIC 20170214
@@ -31,104 +31,6 @@ int    n_tick;
 bool   init_flag;
 double Fp;
 
-
-//+------------------------------------------------------------------+
-//| Expert initialization function                                   |
-//+------------------------------------------------------------------+
-int OnInit(){
-   n_tick    = 0;
-   init_flag = True;
-   Fp        = 0.0;
-   return(INIT_SUCCEEDED);
-}
-//+------------------------------------------------------------------+
-//| Expert deinitialization function                                 |
-//+------------------------------------------------------------------+
-void OnDeinit(const int reason){
-   
-}
-
-//+------------------------------------------------------------------+
-//| Market functions                                                 |
-//+------------------------------------------------------------------+
-void closeBuyPos(){  
-   int res;
-   for(int i=OrdersTotal()-1; i>=0; i--){
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
-      if(OrderType()==OP_BUY){  
-         res = OrderClose(OrderTicket(),OrderLots(),Bid,slippage,OrangeRed);
-         continue;
-      }
-   }
-}
-
-void closeSellPos(){  
-   int res;
-   for(int i=OrdersTotal()-1; i>=0; i--){
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
-      if(OrderType()==OP_SELL){
-         res = OrderClose(OrderTicket(),OrderLots(),Ask,slippage,OrangeRed);
-         continue;
-      }
-   }
-}
-
-int countBuyPos(){  
-   int n_buy_pos = 0;
-   for(int i=OrdersTotal()-1; i>=0; i--){
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
-      if(OrderType()==OP_BUY){  
-         n_buy_pos++;
-         continue;
-      }
-   }
-   return n_buy_pos;
-}
-
-int countSellPos(){  
-   int n_sell_pos = 0;
-   for(int i=OrdersTotal()-1; i>=0; i--){
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
-      if(OrderType()==OP_SELL){
-         n_sell_pos++;
-         continue;
-      }
-   }
-   return n_sell_pos;
-}
-
-void orderStopLimit(bool _stop_flag, double _stop_points, bool _limit_flag, double _limit_points){  
-   int res;
-   for(int i=0; i<OrdersTotal(); i++){
-      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
-      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
-      //--- For long position.
-      if(OrderType()==OP_BUY){  
-         if(OrderStopLoss()==0){
-            res = OrderModify(OrderTicket(), OrderOpenPrice(),
-                              (Bid - (_stop_points  - 2) * Point) * _stop_flag,
-                              (Bid + (_limit_points - 2) * Point) * _limit_flag,
-                              0, ForestGreen);
-            continue;
-         }
-      }
-      //--- For short position.
-      if(OrderType()==OP_SELL){
-         if(OrderStopLoss()==0){
-            res = OrderModify(OrderTicket(), OrderOpenPrice(),
-                              (Ask + (_stop_points  - 2) * Point) * _stop_flag,
-                              (Ask - (_limit_points - 2) * Point) * _limit_flag,
-                              0, ForestGreen);
-            continue;
-         }
-      }
-   }
-}
-
 //+------------------------------------------------------------------+
 //| RRL agent                                                        |
 //+------------------------------------------------------------------+
@@ -150,12 +52,14 @@ class TradingRRL{
         double F[];
         double R[];
         double w[];
+        double w_opt[];
         double epoch_S[];
         double sumR[];
         double sumR2[];
         double A;
         double B;
         double S;
+        double S_opt;
         double dSdA;
         double dSdB;
         double dAdR;
@@ -206,6 +110,7 @@ TradingRRL::TradingRRL(){
    A = 0.0;
    B = 0.0;
    S = 0.0;
+   S_opt = 0.0;
    dSdA = 0.0;
    dSdB = 0.0;
    dAdR = 0.0;
@@ -215,6 +120,7 @@ TradingRRL::TradingRRL(){
    ArrayResize(F, T+1);
    ArrayResize(R, T);
    ArrayResize(w, M+2);
+   ArrayResize(w_opt, M+2);
    ArrayResize(sumR, T+1);
    ArrayResize(sumR2, T+1);
    ArrayResize(dBdR, T);
@@ -229,6 +135,7 @@ TradingRRL::TradingRRL(){
    ArrayInitialize(F, 0.0);
    ArrayInitialize(R, 0.0);
    ArrayInitialize(w, 1.0);
+   ArrayInitialize(w_opt, 1.0);
    ArrayInitialize(sumR, 0.0);
    ArrayInitialize(sumR2, 0.0);
    ArrayInitialize(dBdR, 0.0);
@@ -362,16 +269,24 @@ void TradingRRL::update_w(){
 }
 
 void TradingRRL::fit(){
-    int e_index;
     double tic, toc;
+    int e_index;
+
     ArrayInitialize(w, 1.0);
+    ArrayInitialize(w_opt, 1.0);
     calc_dSdw();
     Print("Epoch loop start. Initial sharp's ratio is " + DoubleToString(S) +".");
+    S_opt = S;
+    
     tic = GetTickCount()*1.0e-3;
     for(e_index=0; e_index<n_epoch; ++e_index){
         calc_dSdw();
-        update_w();
+        if(S > S_opt){
+            S_opt = S;
+            ArrayCopy(w_opt, w);
+        }
         epoch_S[e_index] = S;
+        update_w();
         if(e_index%progress_period == progress_period-1){
             toc = GetTickCount()*1.0e-3;
             Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) + ". Elapsed time: " + DoubleToString(toc-tic, 4) + " sec.");
@@ -379,7 +294,9 @@ void TradingRRL::fit(){
     }
     toc = GetTickCount()*1.0e-3;
     Print("Epoch: "+ IntegerToString(e_index + 1) + " / " + IntegerToString(n_epoch) + ". Shape's ratio: "+ DoubleToString(S) + ". Elapsed time: " + DoubleToString(toc-tic, 4) + " sec.");
-    Print("Epoch loop end. Optimized sharp's ratio is " + DoubleToString(S) +".");
+    ArrayCopy(w, w_opt);
+    calc_dSdw();
+    Print("Epoch loop end. Optimized sharp's ratio is " + DoubleToString(S_opt) +".");
 }
 
 void TradingRRL::save_weight(){
@@ -410,7 +327,106 @@ void TradingRRL::save_weight(){
 }
 
 //--- Create TradingRRL object as global.
-TradingRRL rrl();
+TradingRRL *rrl;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit(){
+   n_tick    = 0;
+   init_flag = True;
+   Fp        = 0.0;
+   rrl = new TradingRRL();
+   return(INIT_SUCCEEDED);
+}
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason){
+   delete rrl;   
+}
+
+//+------------------------------------------------------------------+
+//| Market functions                                                 |
+//+------------------------------------------------------------------+
+void closeBuyPos(){  
+   int res;
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_BUY){  
+         res = OrderClose(OrderTicket(),OrderLots(),Bid,slippage,OrangeRed);
+         continue;
+      }
+   }
+}
+
+void closeSellPos(){  
+   int res;
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_SELL){
+         res = OrderClose(OrderTicket(),OrderLots(),Ask,slippage,OrangeRed);
+         continue;
+      }
+   }
+}
+
+int countBuyPos(){  
+   int n_buy_pos = 0;
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_BUY){  
+         n_buy_pos++;
+         continue;
+      }
+   }
+   return n_buy_pos;
+}
+
+int countSellPos(){  
+   int n_sell_pos = 0;
+   for(int i=OrdersTotal()-1; i>=0; i--){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      if(OrderType()==OP_SELL){
+         n_sell_pos++;
+         continue;
+      }
+   }
+   return n_sell_pos;
+}
+
+void orderStopLimit(bool _stop_flag, double _stop_points, bool _limit_flag, double _limit_points){  
+   int res;
+   for(int i=0; i<OrdersTotal(); i++){
+      if(OrderSelect(i,SELECT_BY_POS,MODE_TRADES)==false) continue;
+      if(OrderMagicNumber()!=MAGIC || OrderSymbol()!=Symbol()) continue;
+      //--- For long position.
+      if(OrderType()==OP_BUY){  
+         if(OrderStopLoss()==0){
+            res = OrderModify(OrderTicket(), OrderOpenPrice(),
+                              (Bid - (_stop_points  - 2) * Point) * _stop_flag,
+                              (Bid + (_limit_points - 2) * Point) * _limit_flag,
+                              0, ForestGreen);
+            continue;
+         }
+      }
+      //--- For short position.
+      if(OrderType()==OP_SELL){
+         if(OrderStopLoss()==0){
+            res = OrderModify(OrderTicket(), OrderOpenPrice(),
+                              (Ask + (_stop_points  - 2) * Point) * _stop_flag,
+                              (Ask - (_limit_points - 2) * Point) * _limit_flag,
+                              0, ForestGreen);
+            continue;
+         }
+      }
+   }
+}
+
 
 //+------------------------------------------------------------------+
 //| Expert tick function                                             |

@@ -32,6 +32,7 @@ cdef class TradingRRL(object):
     cdef public np.ndarray F
     cdef public np.ndarray R
     cdef public np.ndarray w
+    cdef public np.ndarray w_opt
     cdef public np.ndarray epoch_S
     cdef public int n_epoch
     cdef public int progress_period
@@ -41,6 +42,7 @@ cdef class TradingRRL(object):
     cdef public double A
     cdef public double B
     cdef public double S
+    cdef public double S_opt
     cdef public double dSdA
     cdef public double dSdB
     cdef public double dAdR
@@ -67,6 +69,7 @@ cdef class TradingRRL(object):
         self.F = np.zeros(T+1, dtype=np.float64)
         self.R = np.zeros(T, dtype=np.float64)
         self.w = np.ones(M+2, dtype=np.float64)
+        self.w_opt = np.ones(M+2, dtype=np.float64)
         self.epoch_S = np.empty(0, dtype=np.float64)
         self.n_epoch = n_epoch
         self.progress_period = 100
@@ -76,6 +79,7 @@ cdef class TradingRRL(object):
         self.A = 0.0
         self.B = 0.0
         self.S = 0.0
+        self.S_opt = 0.0
         self.dSdA = 0.0
         self.dSdB = 0.0
         self.dAdR = 0.0
@@ -218,21 +222,28 @@ cdef class TradingRRL(object):
         cdef int pre_epoch_times
         cdef int e_index
 
-        tic = time.clock()
         pre_epoch_times = len(self.epoch_S)
 
         self.calc_dSdw()
         print("Epoch loop start. Initial sharp's ratio is " + str(self.S) + ".")
+        self.S_opt = self.S
+        
+        tic = time.clock()
         for e_index in range(self.n_epoch):
             self.calc_dSdw()
-            self.update_w()
+            if self.S > self.S_opt:
+                self.S_opt = self.S
+                self.w_opt = self.w.copy()
             self.epoch_S = np.append(self.epoch_S, self.S)
+            self.update_w()
             if e_index % self.progress_period  == self.progress_period-1:
                 toc = time.clock()
                 print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
         toc = time.clock()
-        print("Epoch loop end. Optimized sharp's ratio is " + str(self.S) + ".")
         print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
+        self.w = self.w_opt.copy()
+        self.calc_dSdw()
+        print("Epoch loop end. Optimized sharp's ratio is " + str(self.S_opt) + ".")
 
     def save_weight(self):
         pd.DataFrame(self.w).to_csv("w.csv", header=False, index=False)

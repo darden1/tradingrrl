@@ -32,12 +32,14 @@ namespace tradingrrl{
             vector<double> F;
             vector<double> R;
             vector<double> w;
+            vector<double> w_opt;
             vector<double> epoch_S;
             vector<double> sumR;
             vector<double> sumR2;
             double A;
             double B;
             double S;
+            double S_opt;
             double dSdA;
             double dSdB;
             double dAdR;

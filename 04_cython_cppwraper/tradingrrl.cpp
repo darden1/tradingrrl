@@ -668,7 +668,7 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_obj_10tradingrrl_TradingRRL;
 
-/* "tradingrrl.pyx":54
+/* "tradingrrl.pyx":56
  *         void load_weight()
  * 
  * cdef class TradingRRL(object):             # <<<<<<<<<<<<<<
@@ -979,6 +979,8 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1R___get__(struct __pyx_obj_
 static int __pyx_pf_10tradingrrl_10TradingRRL_1R_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_R); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1w___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
 static int __pyx_pf_10tradingrrl_10TradingRRL_1w_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_w); /* proto */
+static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5w_opt___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
+static int __pyx_pf_10tradingrrl_10TradingRRL_5w_opt_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_w_opt); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_7epoch_S___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
 static int __pyx_pf_10tradingrrl_10TradingRRL_7epoch_S_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_epoch_S); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4sumR___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
@@ -991,6 +993,8 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1B___get__(struct __pyx_obj_
 static int __pyx_pf_10tradingrrl_10TradingRRL_1B_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_B); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1S___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
 static int __pyx_pf_10tradingrrl_10TradingRRL_1S_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_S); /* proto */
+static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5S_opt___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
+static int __pyx_pf_10tradingrrl_10TradingRRL_5S_opt_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_S_opt); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdA___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
 static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdA_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_dSdA); /* proto */
 static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdB___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self); /* proto */
@@ -1011,7 +1015,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdw___get__(struct __pyx_o
 static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdw_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_dSdw); /* proto */
 static PyObject *__pyx_tp_new_10tradingrrl_TradingRRL(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 
-/* "tradingrrl.pyx":57
+/* "tradingrrl.pyx":59
  *     cdef cppTradingRRL* crrl
  * 
  *     def __cinit__(self,int T=1000, int M=200, int init_t=10000, double  mu=10000, double sigma=0.04, double rho=1.0, int n_epoch=10000):             # <<<<<<<<<<<<<<
@@ -1088,7 +1092,7 @@ static int __pyx_pw_10tradingrrl_10TradingRRL_1__cinit__(PyObject *__pyx_v_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 57, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 59, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1104,44 +1108,44 @@ static int __pyx_pw_10tradingrrl_10TradingRRL_1__cinit__(PyObject *__pyx_v_self,
       }
     }
     if (values[0]) {
-      __pyx_v_T = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_T == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_T = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_T == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_T = ((int)0x3E8);
     }
     if (values[1]) {
-      __pyx_v_M = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_M == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_M = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_M == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_M = ((int)0xC8);
     }
     if (values[2]) {
-      __pyx_v_init_t = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_init_t == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_init_t = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_init_t == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_init_t = ((int)0x2710);
     }
     if (values[3]) {
-      __pyx_v_mu = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_mu = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_mu = ((double)10000.0);
     }
     if (values[4]) {
-      __pyx_v_sigma = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_sigma == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_sigma = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_sigma == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_sigma = ((double)0.04);
     }
     if (values[5]) {
-      __pyx_v_rho = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_rho == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_rho = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_rho == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_rho = ((double)1.0);
     }
     if (values[6]) {
-      __pyx_v_n_epoch = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_n_epoch == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+      __pyx_v_n_epoch = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_n_epoch == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L3_error)
     } else {
       __pyx_v_n_epoch = ((int)0x2710);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 57, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 59, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tradingrrl.TradingRRL.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1160,7 +1164,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL___cinit__(struct __pyx_obj_10tradi
   tradingrrl::cppTradingRRL *__pyx_t_1;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "tradingrrl.pyx":58
+  /* "tradingrrl.pyx":60
  * 
  *     def __cinit__(self,int T=1000, int M=200, int init_t=10000, double  mu=10000, double sigma=0.04, double rho=1.0, int n_epoch=10000):
  *         self.crrl = new cppTradingRRL(T, M, init_t, mu, sigma, rho, n_epoch)             # <<<<<<<<<<<<<<
@@ -1171,11 +1175,11 @@ static int __pyx_pf_10tradingrrl_10TradingRRL___cinit__(struct __pyx_obj_10tradi
     __pyx_t_1 = new tradingrrl::cppTradingRRL(__pyx_v_T, __pyx_v_M, __pyx_v_init_t, __pyx_v_mu, __pyx_v_sigma, __pyx_v_rho, __pyx_v_n_epoch);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 58, __pyx_L1_error)
+    __PYX_ERR(0, 60, __pyx_L1_error)
   }
   __pyx_v_self->crrl = __pyx_t_1;
 
-  /* "tradingrrl.pyx":57
+  /* "tradingrrl.pyx":59
  *     cdef cppTradingRRL* crrl
  * 
  *     def __cinit__(self,int T=1000, int M=200, int init_t=10000, double  mu=10000, double sigma=0.04, double rho=1.0, int n_epoch=10000):             # <<<<<<<<<<<<<<
@@ -1194,7 +1198,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL___cinit__(struct __pyx_obj_10tradi
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":60
+/* "tradingrrl.pyx":62
  *         self.crrl = new cppTradingRRL(T, M, init_t, mu, sigma, rho, n_epoch)
  * 
  *     def __dealloc(self):             # <<<<<<<<<<<<<<
@@ -1220,7 +1224,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_2__dealloc(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc", 0);
 
-  /* "tradingrrl.pyx":61
+  /* "tradingrrl.pyx":63
  * 
  *     def __dealloc(self):
  *         del self.crrl             # <<<<<<<<<<<<<<
@@ -1229,7 +1233,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_2__dealloc(struct __pyx_obj_
  */
   delete __pyx_v_self->crrl;
 
-  /* "tradingrrl.pyx":60
+  /* "tradingrrl.pyx":62
  *         self.crrl = new cppTradingRRL(T, M, init_t, mu, sigma, rho, n_epoch)
  * 
  *     def __dealloc(self):             # <<<<<<<<<<<<<<
@@ -1244,7 +1248,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_2__dealloc(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":63
+/* "tradingrrl.pyx":65
  *         del self.crrl
  * 
  *     def load_csv(self, str fname):             # <<<<<<<<<<<<<<
@@ -1258,7 +1262,7 @@ static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_5load_csv(PyObject *__pyx_v_
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("load_csv (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fname), (&PyString_Type), 1, "fname", 1))) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fname), (&PyString_Type), 1, "fname", 1))) __PYX_ERR(0, 65, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tradingrrl_10TradingRRL_4load_csv(((struct __pyx_obj_10tradingrrl_TradingRRL *)__pyx_v_self), ((PyObject*)__pyx_v_fname));
 
   /* function exit code */
@@ -1277,7 +1281,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4load_csv(struct __pyx_obj_1
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("load_csv", 0);
 
-  /* "tradingrrl.pyx":64
+  /* "tradingrrl.pyx":66
  * 
  *     def load_csv(self, str fname):
  *         return self.crrl.load_csv(fname)             # <<<<<<<<<<<<<<
@@ -1285,14 +1289,14 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4load_csv(struct __pyx_obj_1
  *     def quant(self, double f, double threshold):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_string_from_py_std__in_string(__pyx_v_fname); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_void_to_None(__pyx_v_self->crrl->load_csv(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_string_from_py_std__in_string(__pyx_v_fname); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(__pyx_v_self->crrl->load_csv(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":63
+  /* "tradingrrl.pyx":65
  *         del self.crrl
  * 
  *     def load_csv(self, str fname):             # <<<<<<<<<<<<<<
@@ -1311,7 +1315,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4load_csv(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":66
+/* "tradingrrl.pyx":68
  *         return self.crrl.load_csv(fname)
  * 
  *     def quant(self, double f, double threshold):             # <<<<<<<<<<<<<<
@@ -1347,11 +1351,11 @@ static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_7quant(PyObject *__pyx_v_sel
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_threshold)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("quant", 1, 2, 2, 1); __PYX_ERR(0, 66, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("quant", 1, 2, 2, 1); __PYX_ERR(0, 68, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "quant") < 0)) __PYX_ERR(0, 66, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "quant") < 0)) __PYX_ERR(0, 68, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1359,12 +1363,12 @@ static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_7quant(PyObject *__pyx_v_sel
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_f = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L3_error)
-    __pyx_v_threshold = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_threshold == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L3_error)
+    __pyx_v_f = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
+    __pyx_v_threshold = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_threshold == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("quant", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 66, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("quant", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 68, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tradingrrl.TradingRRL.quant", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1383,7 +1387,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_6quant(struct __pyx_obj_10tr
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("quant", 0);
 
-  /* "tradingrrl.pyx":67
+  /* "tradingrrl.pyx":69
  * 
  *     def quant(self, double f, double threshold):
  *         return self.crrl.quant(f, threshold)             # <<<<<<<<<<<<<<
@@ -1391,13 +1395,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_6quant(struct __pyx_obj_10tr
  *     def sign(self, double f):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->quant(__pyx_v_f, __pyx_v_threshold)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->quant(__pyx_v_f, __pyx_v_threshold)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":66
+  /* "tradingrrl.pyx":68
  *         return self.crrl.load_csv(fname)
  * 
  *     def quant(self, double f, double threshold):             # <<<<<<<<<<<<<<
@@ -1416,7 +1420,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_6quant(struct __pyx_obj_10tr
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":69
+/* "tradingrrl.pyx":71
  *         return self.crrl.quant(f, threshold)
  * 
  *     def sign(self, double f):             # <<<<<<<<<<<<<<
@@ -1432,7 +1436,7 @@ static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_9sign(PyObject *__pyx_v_self
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sign (wrapper)", 0);
   assert(__pyx_arg_f); {
-    __pyx_v_f = __pyx_PyFloat_AsDouble(__pyx_arg_f); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L3_error)
+    __pyx_v_f = __pyx_PyFloat_AsDouble(__pyx_arg_f); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -1453,7 +1457,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_8sign(struct __pyx_obj_10tra
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("sign", 0);
 
-  /* "tradingrrl.pyx":70
+  /* "tradingrrl.pyx":72
  * 
  *     def sign(self, double f):
  *         return self.crrl.sign(f)             # <<<<<<<<<<<<<<
@@ -1461,13 +1465,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_8sign(struct __pyx_obj_10tra
  *     def set_t_p_r(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->sign(__pyx_v_f)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->sign(__pyx_v_f)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":69
+  /* "tradingrrl.pyx":71
  *         return self.crrl.quant(f, threshold)
  * 
  *     def sign(self, double f):             # <<<<<<<<<<<<<<
@@ -1486,7 +1490,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_8sign(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":72
+/* "tradingrrl.pyx":74
  *         return self.crrl.sign(f)
  * 
  *     def set_t_p_r(self):             # <<<<<<<<<<<<<<
@@ -1513,7 +1517,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_10set_t_p_r(struct __pyx_obj
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("set_t_p_r", 0);
 
-  /* "tradingrrl.pyx":73
+  /* "tradingrrl.pyx":75
  * 
  *     def set_t_p_r(self):
  *         return self.crrl.set_t_p_r()             # <<<<<<<<<<<<<<
@@ -1521,13 +1525,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_10set_t_p_r(struct __pyx_obj
  *     def set_x_F(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->set_t_p_r()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->set_t_p_r()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":72
+  /* "tradingrrl.pyx":74
  *         return self.crrl.sign(f)
  * 
  *     def set_t_p_r(self):             # <<<<<<<<<<<<<<
@@ -1546,7 +1550,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_10set_t_p_r(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":75
+/* "tradingrrl.pyx":77
  *         return self.crrl.set_t_p_r()
  * 
  *     def set_x_F(self):             # <<<<<<<<<<<<<<
@@ -1573,7 +1577,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_12set_x_F(struct __pyx_obj_1
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("set_x_F", 0);
 
-  /* "tradingrrl.pyx":76
+  /* "tradingrrl.pyx":78
  * 
  *     def set_x_F(self):
  *         return self.crrl.set_x_F()             # <<<<<<<<<<<<<<
@@ -1581,13 +1585,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_12set_x_F(struct __pyx_obj_1
  *     def calc_R(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->set_x_F()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->set_x_F()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":75
+  /* "tradingrrl.pyx":77
  *         return self.crrl.set_t_p_r()
  * 
  *     def set_x_F(self):             # <<<<<<<<<<<<<<
@@ -1606,7 +1610,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_12set_x_F(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":78
+/* "tradingrrl.pyx":80
  *         return self.crrl.set_x_F()
  * 
  *     def calc_R(self):             # <<<<<<<<<<<<<<
@@ -1633,7 +1637,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_14calc_R(struct __pyx_obj_10
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("calc_R", 0);
 
-  /* "tradingrrl.pyx":79
+  /* "tradingrrl.pyx":81
  * 
  *     def calc_R(self):
  *         return self.crrl.calc_R()             # <<<<<<<<<<<<<<
@@ -1641,13 +1645,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_14calc_R(struct __pyx_obj_10
  *     def calc_sumR(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_R()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_R()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":78
+  /* "tradingrrl.pyx":80
  *         return self.crrl.set_x_F()
  * 
  *     def calc_R(self):             # <<<<<<<<<<<<<<
@@ -1666,7 +1670,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_14calc_R(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":81
+/* "tradingrrl.pyx":83
  *         return self.crrl.calc_R()
  * 
  *     def calc_sumR(self):             # <<<<<<<<<<<<<<
@@ -1693,7 +1697,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_16calc_sumR(struct __pyx_obj
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("calc_sumR", 0);
 
-  /* "tradingrrl.pyx":82
+  /* "tradingrrl.pyx":84
  * 
  *     def calc_sumR(self):
  *         return self.crrl.calc_sumR()             # <<<<<<<<<<<<<<
@@ -1701,13 +1705,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_16calc_sumR(struct __pyx_obj
  *     def calc_dSdw(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_sumR()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_sumR()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":81
+  /* "tradingrrl.pyx":83
  *         return self.crrl.calc_R()
  * 
  *     def calc_sumR(self):             # <<<<<<<<<<<<<<
@@ -1726,7 +1730,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_16calc_sumR(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":84
+/* "tradingrrl.pyx":86
  *         return self.crrl.calc_sumR()
  * 
  *     def calc_dSdw(self):             # <<<<<<<<<<<<<<
@@ -1753,7 +1757,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_18calc_dSdw(struct __pyx_obj
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("calc_dSdw", 0);
 
-  /* "tradingrrl.pyx":85
+  /* "tradingrrl.pyx":87
  * 
  *     def calc_dSdw(self):
  *         return self.crrl.calc_dSdw()             # <<<<<<<<<<<<<<
@@ -1761,13 +1765,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_18calc_dSdw(struct __pyx_obj
  *     def update_w(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_dSdw()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->calc_dSdw()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":84
+  /* "tradingrrl.pyx":86
  *         return self.crrl.calc_sumR()
  * 
  *     def calc_dSdw(self):             # <<<<<<<<<<<<<<
@@ -1786,7 +1790,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_18calc_dSdw(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":87
+/* "tradingrrl.pyx":89
  *         return self.crrl.calc_dSdw()
  * 
  *     def update_w(self):             # <<<<<<<<<<<<<<
@@ -1813,7 +1817,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_20update_w(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("update_w", 0);
 
-  /* "tradingrrl.pyx":88
+  /* "tradingrrl.pyx":90
  * 
  *     def update_w(self):
  *         return self.crrl.update_w()             # <<<<<<<<<<<<<<
@@ -1821,13 +1825,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_20update_w(struct __pyx_obj_
  *     def fit(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->update_w()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->update_w()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":87
+  /* "tradingrrl.pyx":89
  *         return self.crrl.calc_dSdw()
  * 
  *     def update_w(self):             # <<<<<<<<<<<<<<
@@ -1846,7 +1850,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_20update_w(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":90
+/* "tradingrrl.pyx":92
  *         return self.crrl.update_w()
  * 
  *     def fit(self):             # <<<<<<<<<<<<<<
@@ -1873,7 +1877,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_22fit(struct __pyx_obj_10tra
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("fit", 0);
 
-  /* "tradingrrl.pyx":91
+  /* "tradingrrl.pyx":93
  * 
  *     def fit(self):
  *         return self.crrl.fit()             # <<<<<<<<<<<<<<
@@ -1881,13 +1885,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_22fit(struct __pyx_obj_10tra
  *     def save_weight(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->fit()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->fit()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":90
+  /* "tradingrrl.pyx":92
  *         return self.crrl.update_w()
  * 
  *     def fit(self):             # <<<<<<<<<<<<<<
@@ -1906,7 +1910,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_22fit(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":93
+/* "tradingrrl.pyx":95
  *         return self.crrl.fit()
  * 
  *     def save_weight(self):             # <<<<<<<<<<<<<<
@@ -1933,7 +1937,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_24save_weight(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("save_weight", 0);
 
-  /* "tradingrrl.pyx":94
+  /* "tradingrrl.pyx":96
  * 
  *     def save_weight(self):
  *         return self.crrl.save_weight()             # <<<<<<<<<<<<<<
@@ -1941,13 +1945,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_24save_weight(struct __pyx_o
  *     def load_weight(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->save_weight()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->save_weight()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":93
+  /* "tradingrrl.pyx":95
  *         return self.crrl.fit()
  * 
  *     def save_weight(self):             # <<<<<<<<<<<<<<
@@ -1966,7 +1970,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_24save_weight(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":96
+/* "tradingrrl.pyx":98
  *         return self.crrl.save_weight()
  * 
  *     def load_weight(self):             # <<<<<<<<<<<<<<
@@ -1993,7 +1997,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_26load_weight(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("load_weight", 0);
 
-  /* "tradingrrl.pyx":97
+  /* "tradingrrl.pyx":99
  * 
  *     def load_weight(self):
  *         return self.crrl.load_weight()             # <<<<<<<<<<<<<<
@@ -2001,13 +2005,13 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_26load_weight(struct __pyx_o
  *     property T:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->load_weight()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->crrl->load_weight()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tradingrrl.pyx":96
+  /* "tradingrrl.pyx":98
  *         return self.crrl.save_weight()
  * 
  *     def load_weight(self):             # <<<<<<<<<<<<<<
@@ -2026,7 +2030,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_26load_weight(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":100
+/* "tradingrrl.pyx":102
  * 
  *     property T:
  *         def __get__(self): return self.crrl.T             # <<<<<<<<<<<<<<
@@ -2053,7 +2057,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1T___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->T); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->T); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2070,7 +2074,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1T___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":101
+/* "tradingrrl.pyx":103
  *     property T:
  *         def __get__(self): return self.crrl.T
  *         def __set__(self, T): self.crrl.T = T             # <<<<<<<<<<<<<<
@@ -2096,7 +2100,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1T_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_T); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_T); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
   __pyx_v_self->crrl->T = __pyx_t_1;
 
   /* function exit code */
@@ -2110,7 +2114,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1T_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":104
+/* "tradingrrl.pyx":106
  * 
  *     property M:
  *         def __get__(self): return self.crrl.M             # <<<<<<<<<<<<<<
@@ -2137,7 +2141,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1M___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->M); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->M); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2154,7 +2158,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1M___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":105
+/* "tradingrrl.pyx":107
  *     property M:
  *         def __get__(self): return self.crrl.M
  *         def __set__(self, M): self.crrl.M = M             # <<<<<<<<<<<<<<
@@ -2180,7 +2184,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1M_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_M); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_M); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L1_error)
   __pyx_v_self->crrl->M = __pyx_t_1;
 
   /* function exit code */
@@ -2194,7 +2198,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1M_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":108
+/* "tradingrrl.pyx":110
  * 
  *     property init_t:
  *         def __get__(self): return self.crrl.init_t             # <<<<<<<<<<<<<<
@@ -2221,7 +2225,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_6init_t___get__(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->init_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->init_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2238,7 +2242,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_6init_t___get__(struct __pyx
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":109
+/* "tradingrrl.pyx":111
  *     property init_t:
  *         def __get__(self): return self.crrl.init_t
  *         def __set__(self, init_t): self.crrl.init_t = init_t             # <<<<<<<<<<<<<<
@@ -2264,7 +2268,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_6init_t_2__set__(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_init_t); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_init_t); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
   __pyx_v_self->crrl->init_t = __pyx_t_1;
 
   /* function exit code */
@@ -2278,7 +2282,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_6init_t_2__set__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":112
+/* "tradingrrl.pyx":114
  * 
  *     property mu:
  *         def __get__(self): return self.crrl.mu             # <<<<<<<<<<<<<<
@@ -2305,7 +2309,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_2mu___get__(struct __pyx_obj
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->mu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->mu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2322,7 +2326,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_2mu___get__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":113
+/* "tradingrrl.pyx":115
  *     property mu:
  *         def __get__(self): return self.crrl.mu
  *         def __set__(self, mu): self.crrl.mu = mu             # <<<<<<<<<<<<<<
@@ -2348,7 +2352,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_2mu_2__set__(struct __pyx_obj_10tr
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_mu); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_mu); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L1_error)
   __pyx_v_self->crrl->mu = __pyx_t_1;
 
   /* function exit code */
@@ -2362,7 +2366,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_2mu_2__set__(struct __pyx_obj_10tr
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":116
+/* "tradingrrl.pyx":118
  * 
  *     property sigma:
  *         def __get__(self): return self.crrl.sigma             # <<<<<<<<<<<<<<
@@ -2389,7 +2393,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5sigma___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->sigma); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->sigma); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2406,7 +2410,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5sigma___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":117
+/* "tradingrrl.pyx":119
  *     property sigma:
  *         def __get__(self): return self.crrl.sigma
  *         def __set__(self, sigma): self.crrl.sigma = sigma             # <<<<<<<<<<<<<<
@@ -2432,7 +2436,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5sigma_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_sigma); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_sigma); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_v_self->crrl->sigma = __pyx_t_1;
 
   /* function exit code */
@@ -2446,7 +2450,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5sigma_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":120
+/* "tradingrrl.pyx":122
  * 
  *     property rho:
  *         def __get__(self): return self.crrl.rho             # <<<<<<<<<<<<<<
@@ -2473,7 +2477,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_3rho___get__(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->rho); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->rho); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2490,7 +2494,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_3rho___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":121
+/* "tradingrrl.pyx":123
  *     property rho:
  *         def __get__(self): return self.crrl.rho
  *         def __set__(self, rho): self.crrl.rho = rho             # <<<<<<<<<<<<<<
@@ -2516,7 +2520,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_3rho_2__set__(struct __pyx_obj_10t
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_rho); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_rho); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 123, __pyx_L1_error)
   __pyx_v_self->crrl->rho = __pyx_t_1;
 
   /* function exit code */
@@ -2530,7 +2534,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_3rho_2__set__(struct __pyx_obj_10t
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":124
+/* "tradingrrl.pyx":126
  * 
  *     property n_epoch:
  *         def __get__(self): return self.crrl.n_epoch             # <<<<<<<<<<<<<<
@@ -2557,7 +2561,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_7n_epoch___get__(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->n_epoch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->n_epoch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2574,7 +2578,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_7n_epoch___get__(struct __py
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":125
+/* "tradingrrl.pyx":127
  *     property n_epoch:
  *         def __get__(self): return self.crrl.n_epoch
  *         def __set__(self, n_epoch): self.crrl.n_epoch = n_epoch             # <<<<<<<<<<<<<<
@@ -2600,7 +2604,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_7n_epoch_2__set__(struct __pyx_obj
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n_epoch); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n_epoch); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 127, __pyx_L1_error)
   __pyx_v_self->crrl->n_epoch = __pyx_t_1;
 
   /* function exit code */
@@ -2614,7 +2618,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_7n_epoch_2__set__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":128
+/* "tradingrrl.pyx":130
  * 
  *     property progress_period:
  *         def __get__(self): return self.crrl.progress_period             # <<<<<<<<<<<<<<
@@ -2641,7 +2645,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_15progress_period___get__(st
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->progress_period); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->crrl->progress_period); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2658,7 +2662,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_15progress_period___get__(st
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":129
+/* "tradingrrl.pyx":131
  *     property progress_period:
  *         def __get__(self): return self.crrl.progress_period
  *         def __set__(self, progress_period): self.crrl.progress_period = progress_period             # <<<<<<<<<<<<<<
@@ -2684,7 +2688,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_15progress_period_2__set__(struct 
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_progress_period); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_progress_period); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 131, __pyx_L1_error)
   __pyx_v_self->crrl->progress_period = __pyx_t_1;
 
   /* function exit code */
@@ -2698,7 +2702,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_15progress_period_2__set__(struct 
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":132
+/* "tradingrrl.pyx":134
  * 
  *     property q_threshold:
  *         def __get__(self): return self.crrl.q_threshold             # <<<<<<<<<<<<<<
@@ -2725,7 +2729,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_11q_threshold___get__(struct
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->q_threshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->q_threshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2742,7 +2746,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_11q_threshold___get__(struct
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":133
+/* "tradingrrl.pyx":135
  *     property q_threshold:
  *         def __get__(self): return self.crrl.q_threshold
  *         def __set__(self, q_threshold): self.crrl.q_threshold = q_threshold             # <<<<<<<<<<<<<<
@@ -2768,7 +2772,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_11q_threshold_2__set__(struct __py
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_q_threshold); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_q_threshold); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L1_error)
   __pyx_v_self->crrl->q_threshold = __pyx_t_1;
 
   /* function exit code */
@@ -2782,7 +2786,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_11q_threshold_2__set__(struct __py
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":136
+/* "tradingrrl.pyx":138
  * 
  *     property all_t:
  *         def __get__(self): return self.crrl.all_t             # <<<<<<<<<<<<<<
@@ -2809,7 +2813,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5all_t___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_string(__pyx_v_self->crrl->all_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_string(__pyx_v_self->crrl->all_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2826,7 +2830,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5all_t___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":137
+/* "tradingrrl.pyx":139
  *     property all_t:
  *         def __get__(self): return self.crrl.all_t
  *         def __set__(self, all_t): self.crrl.all_t = all_t             # <<<<<<<<<<<<<<
@@ -2852,7 +2856,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5all_t_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   std::vector<std::string>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_all_t); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_all_t); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 139, __pyx_L1_error)
   __pyx_v_self->crrl->all_t = __pyx_t_1;
 
   /* function exit code */
@@ -2866,7 +2870,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5all_t_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":141
+/* "tradingrrl.pyx":143
  * 
  *     property all_p:
  *         def __get__(self): return self.crrl.all_p             # <<<<<<<<<<<<<<
@@ -2893,7 +2897,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5all_p___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->all_p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->all_p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2910,7 +2914,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5all_p___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":142
+/* "tradingrrl.pyx":144
  *     property all_p:
  *         def __get__(self): return self.crrl.all_p
  *         def __set__(self, all_p): self.crrl.all_p = all_p             # <<<<<<<<<<<<<<
@@ -2936,7 +2940,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5all_p_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_all_p); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_all_p); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
   __pyx_v_self->crrl->all_p = __pyx_t_1;
 
   /* function exit code */
@@ -2950,7 +2954,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5all_p_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":145
+/* "tradingrrl.pyx":147
  * 
  *     property t:
  *         def __get__(self): return self.crrl.t             # <<<<<<<<<<<<<<
@@ -2977,7 +2981,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1t___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_string(__pyx_v_self->crrl->t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_string(__pyx_v_self->crrl->t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2994,7 +2998,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1t___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":146
+/* "tradingrrl.pyx":148
  *     property t:
  *         def __get__(self): return self.crrl.t
  *         def __set__(self, t): self.crrl.t = t             # <<<<<<<<<<<<<<
@@ -3020,7 +3024,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1t_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<std::string>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_t); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_t); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 148, __pyx_L1_error)
   __pyx_v_self->crrl->t = __pyx_t_1;
 
   /* function exit code */
@@ -3034,7 +3038,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1t_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":149
+/* "tradingrrl.pyx":151
  * 
  *     property p:
  *         def __get__(self): return self.crrl.p             # <<<<<<<<<<<<<<
@@ -3061,7 +3065,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1p___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3078,7 +3082,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1p___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":150
+/* "tradingrrl.pyx":152
  *     property p:
  *         def __get__(self): return self.crrl.p
  *         def __set__(self, p): self.crrl.p = p             # <<<<<<<<<<<<<<
@@ -3104,7 +3108,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1p_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_p); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_p); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 152, __pyx_L1_error)
   __pyx_v_self->crrl->p = __pyx_t_1;
 
   /* function exit code */
@@ -3118,7 +3122,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1p_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":153
+/* "tradingrrl.pyx":155
  * 
  *     property r:
  *         def __get__(self): return self.crrl.r             # <<<<<<<<<<<<<<
@@ -3145,7 +3149,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1r___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3162,7 +3166,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1r___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":154
+/* "tradingrrl.pyx":156
  *     property r:
  *         def __get__(self): return self.crrl.r
  *         def __set__(self, r): self.crrl.r = r             # <<<<<<<<<<<<<<
@@ -3188,7 +3192,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1r_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_r); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_r); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 156, __pyx_L1_error)
   __pyx_v_self->crrl->r = __pyx_t_1;
 
   /* function exit code */
@@ -3202,7 +3206,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1r_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":157
+/* "tradingrrl.pyx":159
  * 
  *     property x:
  *         def __get__(self): return self.crrl.x             # <<<<<<<<<<<<<<
@@ -3229,7 +3233,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1x___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_double_3e___(__pyx_v_self->crrl->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_double_3e___(__pyx_v_self->crrl->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3246,7 +3250,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1x___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":158
+/* "tradingrrl.pyx":160
  *     property x:
  *         def __get__(self): return self.crrl.x
  *         def __set__(self, x): self.crrl.x = x             # <<<<<<<<<<<<<<
@@ -3272,7 +3276,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1x_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<std::vector<double> >  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_v_x); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_double_3e___(__pyx_v_x); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L1_error)
   __pyx_v_self->crrl->x = __pyx_t_1;
 
   /* function exit code */
@@ -3286,7 +3290,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1x_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":161
+/* "tradingrrl.pyx":163
  * 
  *     property F:
  *         def __get__(self): return self.crrl.F             # <<<<<<<<<<<<<<
@@ -3313,7 +3317,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1F___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3330,7 +3334,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1F___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":162
+/* "tradingrrl.pyx":164
  *     property F:
  *         def __get__(self): return self.crrl.F
  *         def __set__(self, F): self.crrl.F = F             # <<<<<<<<<<<<<<
@@ -3356,7 +3360,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1F_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_F); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_F); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
   __pyx_v_self->crrl->F = __pyx_t_1;
 
   /* function exit code */
@@ -3370,7 +3374,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1F_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":165
+/* "tradingrrl.pyx":167
  * 
  *     property R:
  *         def __get__(self): return self.crrl.R             # <<<<<<<<<<<<<<
@@ -3397,7 +3401,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1R___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->R); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->R); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3414,7 +3418,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1R___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":166
+/* "tradingrrl.pyx":168
  *     property R:
  *         def __get__(self): return self.crrl.R
  *         def __set__(self, R): self.crrl.R = R             # <<<<<<<<<<<<<<
@@ -3440,7 +3444,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1R_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_R); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_R); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L1_error)
   __pyx_v_self->crrl->R = __pyx_t_1;
 
   /* function exit code */
@@ -3454,7 +3458,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1R_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":169
+/* "tradingrrl.pyx":171
  * 
  *     property w:
  *         def __get__(self): return self.crrl.w             # <<<<<<<<<<<<<<
@@ -3481,7 +3485,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1w___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3498,12 +3502,12 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1w___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":170
+/* "tradingrrl.pyx":172
  *     property w:
  *         def __get__(self): return self.crrl.w
  *         def __set__(self, w): self.crrl.w = w             # <<<<<<<<<<<<<<
  * 
- *     property epoch_S:
+ *     property w_opt:
  */
 
 /* Python wrapper */
@@ -3524,7 +3528,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1w_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_w); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_w); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 172, __pyx_L1_error)
   __pyx_v_self->crrl->w = __pyx_t_1;
 
   /* function exit code */
@@ -3538,7 +3542,91 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1w_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":173
+/* "tradingrrl.pyx":175
+ * 
+ *     property w_opt:
+ *         def __get__(self): return self.crrl.w_opt             # <<<<<<<<<<<<<<
+ *         def __set__(self, w_opt): self.crrl.w_opt = w_opt
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_5w_opt_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_5w_opt_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_10tradingrrl_10TradingRRL_5w_opt___get__(((struct __pyx_obj_10tradingrrl_TradingRRL *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5w_opt___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->w_opt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("tradingrrl.TradingRRL.w_opt.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "tradingrrl.pyx":176
+ *     property w_opt:
+ *         def __get__(self): return self.crrl.w_opt
+ *         def __set__(self, w_opt): self.crrl.w_opt = w_opt             # <<<<<<<<<<<<<<
+ * 
+ *     property epoch_S:
+ */
+
+/* Python wrapper */
+static int __pyx_pw_10tradingrrl_10TradingRRL_5w_opt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_w_opt); /*proto*/
+static int __pyx_pw_10tradingrrl_10TradingRRL_5w_opt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_w_opt) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_10tradingrrl_10TradingRRL_5w_opt_2__set__(((struct __pyx_obj_10tradingrrl_TradingRRL *)__pyx_v_self), ((PyObject *)__pyx_v_w_opt));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_10tradingrrl_10TradingRRL_5w_opt_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_w_opt) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  std::vector<double>  __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_w_opt); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_v_self->crrl->w_opt = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("tradingrrl.TradingRRL.w_opt.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "tradingrrl.pyx":179
  * 
  *     property epoch_S:
  *         def __get__(self): return self.crrl.epoch_S             # <<<<<<<<<<<<<<
@@ -3565,7 +3653,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_7epoch_S___get__(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->epoch_S); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->epoch_S); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3582,7 +3670,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_7epoch_S___get__(struct __py
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":174
+/* "tradingrrl.pyx":180
  *     property epoch_S:
  *         def __get__(self): return self.crrl.epoch_S
  *         def __set__(self, epoch_S): self.crrl.epoch_S = epoch_S             # <<<<<<<<<<<<<<
@@ -3608,7 +3696,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_7epoch_S_2__set__(struct __pyx_obj
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_epoch_S); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_epoch_S); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 180, __pyx_L1_error)
   __pyx_v_self->crrl->epoch_S = __pyx_t_1;
 
   /* function exit code */
@@ -3622,7 +3710,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_7epoch_S_2__set__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":177
+/* "tradingrrl.pyx":183
  * 
  *     property sumR:
  *         def __get__(self): return self.crrl.sumR             # <<<<<<<<<<<<<<
@@ -3649,7 +3737,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4sumR___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->sumR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->sumR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3666,7 +3754,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4sumR___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":178
+/* "tradingrrl.pyx":184
  *     property sumR:
  *         def __get__(self): return self.crrl.sumR
  *         def __set__(self, sumR): self.crrl.sumR = sumR             # <<<<<<<<<<<<<<
@@ -3692,7 +3780,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4sumR_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_sumR); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_sumR); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L1_error)
   __pyx_v_self->crrl->sumR = __pyx_t_1;
 
   /* function exit code */
@@ -3706,7 +3794,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4sumR_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":181
+/* "tradingrrl.pyx":187
  * 
  *     property sumR2:
  *         def __get__(self): return self.crrl.sumR2             # <<<<<<<<<<<<<<
@@ -3733,7 +3821,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5sumR2___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->sumR2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->sumR2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3750,7 +3838,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5sumR2___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":182
+/* "tradingrrl.pyx":188
  *     property sumR2:
  *         def __get__(self): return self.crrl.sumR2
  *         def __set__(self, sumR2): self.crrl.sumR2 = sumR2             # <<<<<<<<<<<<<<
@@ -3776,7 +3864,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5sumR2_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_sumR2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_sumR2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 188, __pyx_L1_error)
   __pyx_v_self->crrl->sumR2 = __pyx_t_1;
 
   /* function exit code */
@@ -3790,7 +3878,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5sumR2_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":185
+/* "tradingrrl.pyx":191
  * 
  *     property A:
  *         def __get__(self): return self.crrl.A             # <<<<<<<<<<<<<<
@@ -3817,7 +3905,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1A___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->A); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->A); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3834,7 +3922,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1A___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":186
+/* "tradingrrl.pyx":192
  *     property A:
  *         def __get__(self): return self.crrl.A
  *         def __set__(self, A): self.crrl.A = A             # <<<<<<<<<<<<<<
@@ -3860,7 +3948,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1A_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_A); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_A); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 192, __pyx_L1_error)
   __pyx_v_self->crrl->A = __pyx_t_1;
 
   /* function exit code */
@@ -3874,7 +3962,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1A_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":189
+/* "tradingrrl.pyx":195
  * 
  *     property B:
  *         def __get__(self): return self.crrl.B             # <<<<<<<<<<<<<<
@@ -3901,7 +3989,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1B___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->B); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->B); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3918,7 +4006,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1B___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":190
+/* "tradingrrl.pyx":196
  *     property B:
  *         def __get__(self): return self.crrl.B
  *         def __set__(self, B): self.crrl.B = B             # <<<<<<<<<<<<<<
@@ -3944,7 +4032,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1B_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_B); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_B); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 196, __pyx_L1_error)
   __pyx_v_self->crrl->B = __pyx_t_1;
 
   /* function exit code */
@@ -3958,7 +4046,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1B_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":193
+/* "tradingrrl.pyx":199
  * 
  *     property S:
  *         def __get__(self): return self.crrl.S             # <<<<<<<<<<<<<<
@@ -3985,7 +4073,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1S___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->S); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->S); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4002,12 +4090,12 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_1S___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":194
+/* "tradingrrl.pyx":200
  *     property S:
  *         def __get__(self): return self.crrl.S
  *         def __set__(self, S): self.crrl.S = S             # <<<<<<<<<<<<<<
  * 
- *     property dSdA:
+ *     property S_opt:
  */
 
 /* Python wrapper */
@@ -4028,7 +4116,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1S_2__set__(struct __pyx_obj_10tra
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_S); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_S); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 200, __pyx_L1_error)
   __pyx_v_self->crrl->S = __pyx_t_1;
 
   /* function exit code */
@@ -4042,7 +4130,91 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_1S_2__set__(struct __pyx_obj_10tra
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":197
+/* "tradingrrl.pyx":203
+ * 
+ *     property S_opt:
+ *         def __get__(self): return self.crrl.S_opt             # <<<<<<<<<<<<<<
+ *         def __set__(self, S_opt): self.crrl.S_opt = S_opt
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_5S_opt_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_10tradingrrl_10TradingRRL_5S_opt_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_10tradingrrl_10TradingRRL_5S_opt___get__(((struct __pyx_obj_10tradingrrl_TradingRRL *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5S_opt___get__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->S_opt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("tradingrrl.TradingRRL.S_opt.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "tradingrrl.pyx":204
+ *     property S_opt:
+ *         def __get__(self): return self.crrl.S_opt
+ *         def __set__(self, S_opt): self.crrl.S_opt = S_opt             # <<<<<<<<<<<<<<
+ * 
+ *     property dSdA:
+ */
+
+/* Python wrapper */
+static int __pyx_pw_10tradingrrl_10TradingRRL_5S_opt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_S_opt); /*proto*/
+static int __pyx_pw_10tradingrrl_10TradingRRL_5S_opt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_S_opt) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_10tradingrrl_10TradingRRL_5S_opt_2__set__(((struct __pyx_obj_10tradingrrl_TradingRRL *)__pyx_v_self), ((PyObject *)__pyx_v_S_opt));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_10tradingrrl_10TradingRRL_5S_opt_2__set__(struct __pyx_obj_10tradingrrl_TradingRRL *__pyx_v_self, PyObject *__pyx_v_S_opt) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_S_opt); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_v_self->crrl->S_opt = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("tradingrrl.TradingRRL.S_opt.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "tradingrrl.pyx":207
  * 
  *     property dSdA:
  *         def __get__(self): return self.crrl.dSdA             # <<<<<<<<<<<<<<
@@ -4069,7 +4241,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdA___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dSdA); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dSdA); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4086,7 +4258,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdA___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":198
+/* "tradingrrl.pyx":208
  *     property dSdA:
  *         def __get__(self): return self.crrl.dSdA
  *         def __set__(self, dSdA): self.crrl.dSdA = dSdA             # <<<<<<<<<<<<<<
@@ -4112,7 +4284,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdA_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dSdA); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dSdA); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 208, __pyx_L1_error)
   __pyx_v_self->crrl->dSdA = __pyx_t_1;
 
   /* function exit code */
@@ -4126,7 +4298,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdA_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":201
+/* "tradingrrl.pyx":211
  * 
  *     property dSdB:
  *         def __get__(self): return self.crrl.dSdB             # <<<<<<<<<<<<<<
@@ -4153,7 +4325,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdB___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dSdB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dSdB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4170,7 +4342,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdB___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":202
+/* "tradingrrl.pyx":212
  *     property dSdB:
  *         def __get__(self): return self.crrl.dSdB
  *         def __set__(self, dSdB): self.crrl.dSdB = dSdB             # <<<<<<<<<<<<<<
@@ -4196,7 +4368,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdB_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dSdB); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dSdB); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 212, __pyx_L1_error)
   __pyx_v_self->crrl->dSdB = __pyx_t_1;
 
   /* function exit code */
@@ -4210,7 +4382,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdB_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":205
+/* "tradingrrl.pyx":215
  * 
  *     property dAdR:
  *         def __get__(self): return self.crrl.dAdR             # <<<<<<<<<<<<<<
@@ -4237,7 +4409,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dAdR___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dAdR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->crrl->dAdR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4254,7 +4426,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dAdR___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":206
+/* "tradingrrl.pyx":216
  *     property dAdR:
  *         def __get__(self): return self.crrl.dAdR
  *         def __set__(self, dAdR): self.crrl.dAdR = dAdR             # <<<<<<<<<<<<<<
@@ -4280,7 +4452,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dAdR_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dAdR); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 206, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_dAdR); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L1_error)
   __pyx_v_self->crrl->dAdR = __pyx_t_1;
 
   /* function exit code */
@@ -4294,7 +4466,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dAdR_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":209
+/* "tradingrrl.pyx":219
  * 
  *     property dBdR:
  *         def __get__(self): return self.crrl.dBdR             # <<<<<<<<<<<<<<
@@ -4321,7 +4493,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dBdR___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dBdR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dBdR); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4338,7 +4510,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dBdR___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":210
+/* "tradingrrl.pyx":220
  *     property dBdR:
  *         def __get__(self): return self.crrl.dBdR
  *         def __set__(self, dBdR): self.crrl.dBdR = dBdR             # <<<<<<<<<<<<<<
@@ -4364,7 +4536,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dBdR_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dBdR); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dBdR); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 220, __pyx_L1_error)
   __pyx_v_self->crrl->dBdR = __pyx_t_1;
 
   /* function exit code */
@@ -4378,7 +4550,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dBdR_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":213
+/* "tradingrrl.pyx":223
  * 
  *     property dRdF:
  *         def __get__(self): return self.crrl.dRdF             # <<<<<<<<<<<<<<
@@ -4405,7 +4577,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dRdF___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dRdF); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dRdF); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4422,7 +4594,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dRdF___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":214
+/* "tradingrrl.pyx":224
  *     property dRdF:
  *         def __get__(self): return self.crrl.dRdF
  *         def __set__(self, dRdF): self.crrl.dRdF = dRdF             # <<<<<<<<<<<<<<
@@ -4448,7 +4620,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dRdF_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dRdF); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dRdF); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L1_error)
   __pyx_v_self->crrl->dRdF = __pyx_t_1;
 
   /* function exit code */
@@ -4462,7 +4634,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dRdF_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":217
+/* "tradingrrl.pyx":227
  * 
  *     property dRdFp:
  *         def __get__(self): return self.crrl.dRdFp             # <<<<<<<<<<<<<<
@@ -4489,7 +4661,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5dRdFp___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dRdFp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dRdFp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4506,7 +4678,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5dRdFp___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":218
+/* "tradingrrl.pyx":228
  *     property dRdFp:
  *         def __get__(self): return self.crrl.dRdFp
  *         def __set__(self, dRdFp): self.crrl.dRdFp = dRdFp             # <<<<<<<<<<<<<<
@@ -4532,7 +4704,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5dRdFp_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dRdFp); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dRdFp); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 228, __pyx_L1_error)
   __pyx_v_self->crrl->dRdFp = __pyx_t_1;
 
   /* function exit code */
@@ -4546,7 +4718,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5dRdFp_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":221
+/* "tradingrrl.pyx":231
  * 
  *     property dFpdw:
  *         def __get__(self): return self.crrl.dFpdw             # <<<<<<<<<<<<<<
@@ -4573,7 +4745,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5dFpdw___get__(struct __pyx_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dFpdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dFpdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4590,7 +4762,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_5dFpdw___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":222
+/* "tradingrrl.pyx":232
  *     property dFpdw:
  *         def __get__(self): return self.crrl.dFpdw
  *         def __set__(self, dFpdw): self.crrl.dFpdw = dFpdw             # <<<<<<<<<<<<<<
@@ -4616,7 +4788,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5dFpdw_2__set__(struct __pyx_obj_1
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dFpdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dFpdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 232, __pyx_L1_error)
   __pyx_v_self->crrl->dFpdw = __pyx_t_1;
 
   /* function exit code */
@@ -4630,7 +4802,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_5dFpdw_2__set__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":225
+/* "tradingrrl.pyx":235
  * 
  *     property dFdw:
  *         def __get__(self): return self.crrl.dFdw             # <<<<<<<<<<<<<<
@@ -4657,7 +4829,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dFdw___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dFdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dFdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4674,7 +4846,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dFdw___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":226
+/* "tradingrrl.pyx":236
  *     property dFdw:
  *         def __get__(self): return self.crrl.dFdw
  *         def __set__(self, dFdw): self.crrl.dFdw = dFdw             # <<<<<<<<<<<<<<
@@ -4700,7 +4872,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dFdw_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dFdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dFdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 236, __pyx_L1_error)
   __pyx_v_self->crrl->dFdw = __pyx_t_1;
 
   /* function exit code */
@@ -4714,7 +4886,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dFdw_2__set__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":229
+/* "tradingrrl.pyx":239
  * 
  *     property dSdw:
  *         def __get__(self): return self.crrl.dSdw             # <<<<<<<<<<<<<<
@@ -4740,7 +4912,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdw___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dSdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_self->crrl->dSdw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4757,7 +4929,7 @@ static PyObject *__pyx_pf_10tradingrrl_10TradingRRL_4dSdw___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "tradingrrl.pyx":230
+/* "tradingrrl.pyx":240
  *     property dSdw:
  *         def __get__(self): return self.crrl.dSdw
  *         def __set__(self, dSdw): self.crrl.dSdw = dSdw             # <<<<<<<<<<<<<<
@@ -4781,7 +4953,7 @@ static int __pyx_pf_10tradingrrl_10TradingRRL_4dSdw_2__set__(struct __pyx_obj_10
   __Pyx_RefNannyDeclarations
   std::vector<double>  __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dSdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_from_py_double(__pyx_v_dSdw); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 240, __pyx_L1_error)
   __pyx_v_self->crrl->dSdw = __pyx_t_1;
 
   /* function exit code */
@@ -5891,6 +6063,20 @@ static int __pyx_setprop_10tradingrrl_10TradingRRL_w(PyObject *o, PyObject *v, C
   }
 }
 
+static PyObject *__pyx_getprop_10tradingrrl_10TradingRRL_w_opt(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_10tradingrrl_10TradingRRL_5w_opt_1__get__(o);
+}
+
+static int __pyx_setprop_10tradingrrl_10TradingRRL_w_opt(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_10tradingrrl_10TradingRRL_5w_opt_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
 static PyObject *__pyx_getprop_10tradingrrl_10TradingRRL_epoch_S(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_10tradingrrl_10TradingRRL_7epoch_S_1__get__(o);
 }
@@ -5968,6 +6154,20 @@ static PyObject *__pyx_getprop_10tradingrrl_10TradingRRL_S(PyObject *o, CYTHON_U
 static int __pyx_setprop_10tradingrrl_10TradingRRL_S(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
     return __pyx_pw_10tradingrrl_10TradingRRL_1S_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_10tradingrrl_10TradingRRL_S_opt(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_10tradingrrl_10TradingRRL_5S_opt_1__get__(o);
+}
+
+static int __pyx_setprop_10tradingrrl_10TradingRRL_S_opt(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_10tradingrrl_10TradingRRL_5S_opt_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6137,12 +6337,14 @@ static struct PyGetSetDef __pyx_getsets_10tradingrrl_TradingRRL[] = {
   {(char *)"F", __pyx_getprop_10tradingrrl_10TradingRRL_F, __pyx_setprop_10tradingrrl_10TradingRRL_F, (char *)0, 0},
   {(char *)"R", __pyx_getprop_10tradingrrl_10TradingRRL_R, __pyx_setprop_10tradingrrl_10TradingRRL_R, (char *)0, 0},
   {(char *)"w", __pyx_getprop_10tradingrrl_10TradingRRL_w, __pyx_setprop_10tradingrrl_10TradingRRL_w, (char *)0, 0},
+  {(char *)"w_opt", __pyx_getprop_10tradingrrl_10TradingRRL_w_opt, __pyx_setprop_10tradingrrl_10TradingRRL_w_opt, (char *)0, 0},
   {(char *)"epoch_S", __pyx_getprop_10tradingrrl_10TradingRRL_epoch_S, __pyx_setprop_10tradingrrl_10TradingRRL_epoch_S, (char *)0, 0},
   {(char *)"sumR", __pyx_getprop_10tradingrrl_10TradingRRL_sumR, __pyx_setprop_10tradingrrl_10TradingRRL_sumR, (char *)0, 0},
   {(char *)"sumR2", __pyx_getprop_10tradingrrl_10TradingRRL_sumR2, __pyx_setprop_10tradingrrl_10TradingRRL_sumR2, (char *)0, 0},
   {(char *)"A", __pyx_getprop_10tradingrrl_10TradingRRL_A, __pyx_setprop_10tradingrrl_10TradingRRL_A, (char *)0, 0},
   {(char *)"B", __pyx_getprop_10tradingrrl_10TradingRRL_B, __pyx_setprop_10tradingrrl_10TradingRRL_B, (char *)0, 0},
   {(char *)"S", __pyx_getprop_10tradingrrl_10TradingRRL_S, __pyx_setprop_10tradingrrl_10TradingRRL_S, (char *)0, 0},
+  {(char *)"S_opt", __pyx_getprop_10tradingrrl_10TradingRRL_S_opt, __pyx_setprop_10tradingrrl_10TradingRRL_S_opt, (char *)0, 0},
   {(char *)"dSdA", __pyx_getprop_10tradingrrl_10TradingRRL_dSdA, __pyx_setprop_10tradingrrl_10TradingRRL_dSdA, (char *)0, 0},
   {(char *)"dSdB", __pyx_getprop_10tradingrrl_10TradingRRL_dSdB, __pyx_setprop_10tradingrrl_10TradingRRL_dSdB, (char *)0, 0},
   {(char *)"dAdR", __pyx_getprop_10tradingrrl_10TradingRRL_dAdR, __pyx_setprop_10tradingrrl_10TradingRRL_dAdR, (char *)0, 0},
@@ -6355,9 +6557,9 @@ PyMODINIT_FUNC PyInit_tradingrrl(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_10tradingrrl_TradingRRL) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tradingrrl_TradingRRL) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __pyx_type_10tradingrrl_TradingRRL.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "TradingRRL", (PyObject *)&__pyx_type_10tradingrrl_TradingRRL) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "TradingRRL", (PyObject *)&__pyx_type_10tradingrrl_TradingRRL) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __pyx_ptype_10tradingrrl_TradingRRL = &__pyx_type_10tradingrrl_TradingRRL;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/

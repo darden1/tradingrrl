@@ -26,11 +26,13 @@ namespace tradingrrl{
     F(T+1, 0.0),
     R(T, 0.0),
     w(M+2, 1.0),
+    w_opt(M+2, 1.0),
     sumR(T, 0.0),
     sumR2(T, 0.0),
     A(0.0),
     B(0.0),
     S(0.0),
+    S_opt(0.0),
     dSdA(0.0),
     dSdB(0.0),
     dAdR(0.0),
@@ -193,20 +195,27 @@ namespace tradingrrl{
 
         calc_dSdw();
         cout<<"Epoch loop start. Initial sharp's ratio is "<<S<<"."<<endl;
+        S_opt = S;
         
         tic = time(0);
         for(e_index=0 ; e_index<n_epoch; ++e_index ){
             calc_dSdw();
-            update_w();
+            if(S > S_opt){
+                S_opt = S;
+                w_opt = w;
+            }
             epoch_S.push_back(S);
+            update_w();
             if(e_index%progress_period == progress_period-1){
                 toc = time(0); 
                 cout << "Epoch: " << e_index + pre_epoch_times + 1 << " / " <<n_epoch + pre_epoch_times <<". Shape's ratio: "<<S<<". Elapsed time: "<< difftime(toc, tic) <<" sec."<< endl;
             }
         }
-        toc = time(0); 
-        cout << "Epoch loop end. Optimized sharp's ratio is "<<S<<"."<< endl;
+        toc = time(0);
         cout << "Epoch: " << e_index + pre_epoch_times << " / " <<n_epoch + pre_epoch_times <<". Shape's ratio: "<<S<<". Elapsed time: "<< difftime(toc, tic) <<" sec."<< endl;
+        w = w_opt;
+        calc_dSdw();
+        cout << "Epoch loop end. Optimized sharp's ratio is "<<S_opt<<"."<< endl;
     }
     
     void cppTradingRRL::save_weight(){
@@ -215,7 +224,7 @@ namespace tradingrrl{
             ofs1<<w[j]<<endl;
         }
         ofstream ofs2("epoch_S.csv");
-        for(int e_index=0; e_index<epoch_S.size(); ++e_index)
+        for(int e_index=0; e_index < (int)epoch_S.size(); ++e_index)
         {
             ofs2<<epoch_S[e_index]<<endl;
         }

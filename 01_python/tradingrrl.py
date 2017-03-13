@@ -120,6 +120,7 @@ class TradingRRL(object):
         self.F = np.zeros(T+1)
         self.R = np.zeros(T)
         self.w = np.ones(M+2)
+        self.w_opt = np.ones(M+2)
         self.epoch_S = np.empty(0)
         self.n_epoch = n_epoch
         self.progress_period = 100
@@ -185,21 +186,29 @@ class TradingRRL(object):
         self.w += self.rho * self.dSdw
 
     def fit(self):
-        tic = time.clock()
+        
         pre_epoch_times = len(self.epoch_S)
 
         self.calc_dSdw()
         print("Epoch loop start. Initial sharp's ratio is " + str(self.S) + ".")
+        self.S_opt = self.S
+        
+        tic = time.clock()
         for e_index in range(self.n_epoch):
             self.calc_dSdw()
-            self.update_w()
+            if self.S > self.S_opt:
+                self.S_opt = self.S
+                self.w_opt = self.w.copy()
             self.epoch_S = np.append(self.epoch_S, self.S)
+            self.update_w()
             if e_index % self.progress_period  == self.progress_period-1:
                 toc = time.clock()
                 print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
         toc = time.clock()
-        print("Epoch loop end. Optimized sharp's ratio is " + str(self.S) + ".")
         print("Epoch: " + str(e_index + pre_epoch_times + 1) + "/" + str(self.n_epoch + pre_epoch_times) +". Shape's ratio: " + str(self.S) + ". Elapsed time: " + str(toc-tic) + " sec.")
+        self.w = self.w_opt.copy()
+        self.calc_dSdw()
+        print("Epoch loop end. Optimized sharp's ratio is " + str(self.S_opt) + ".")
 
     def save_weight(self):
         pd.DataFrame(self.w).to_csv("w.csv", header=False, index=False)

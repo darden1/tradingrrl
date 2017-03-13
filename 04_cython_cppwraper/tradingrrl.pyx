@@ -22,12 +22,14 @@ cdef extern from "tradingrrl_.h" namespace "tradingrrl":
         vector[double] F
         vector[double] R
         vector[double] w
+        vector[double] w_opt
         vector[double] epoch_S
         vector[double] sumR
         vector[double] sumR2
         double A
         double B
         double S
+        double S_opt
         double dSdA
         double dSdB
         double dAdR
@@ -169,6 +171,10 @@ cdef class TradingRRL(object):
         def __get__(self): return self.crrl.w
         def __set__(self, w): self.crrl.w = w
 
+    property w_opt:
+        def __get__(self): return self.crrl.w_opt
+        def __set__(self, w_opt): self.crrl.w_opt = w_opt
+
     property epoch_S:
         def __get__(self): return self.crrl.epoch_S
         def __set__(self, epoch_S): self.crrl.epoch_S = epoch_S
@@ -192,6 +198,10 @@ cdef class TradingRRL(object):
     property S:
         def __get__(self): return self.crrl.S
         def __set__(self, S): self.crrl.S = S
+
+    property S_opt:
+        def __get__(self): return self.crrl.S_opt
+        def __set__(self, S_opt): self.crrl.S_opt = S_opt
 
     property dSdA:
         def __get__(self): return self.crrl.dSdA
