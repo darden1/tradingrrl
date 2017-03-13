@@ -1,5 +1,5 @@
-#ifndef _TRADINGRRL_
-#define _TRADINGRRL_
+#ifndef TRADINGRRL_H
+#define TRADINGRRL_H
 
 #include <fstream>
 #include <string>
