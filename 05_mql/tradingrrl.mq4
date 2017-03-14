@@ -472,6 +472,8 @@ void OnTick(){
    n_sell_pos = countSellPos();
    
    Print("F: " + DoubleToString(F));
+   Comment("F: " + DoubleToString(F));
+   
    //--- long
    if(qF == 1){ 
       if(n_buy_pos == 0){
