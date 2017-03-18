@@ -1,0 +1,3 @@
+LIBRARY cy_test_sum.pyd
+EXPORTS
+initcy_test_sum
