@@ -130,13 +130,19 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
 
     toolbox = base.Toolbox()
 
-    def set_ind_range(min_ind, max_ind):
+    def set_ind_range_uniform(min_ind, max_ind):
         _ind = []
         for min, max in zip(min_ind, max_ind):
             _ind.append(random.uniform(min, max))
         return _ind
-
-    toolbox.register("ranged_ind", set_ind_range, min_ind, max_ind)
+    """
+    def set_ind_range_gauss(mu_ind, sigma_ind):
+        _ind = []
+        for mu, sigma in zip(mu_ind, sigma_ind):
+            _ind.append(random.gauss(mu, sigma))
+        return _ind
+    """
+    toolbox.register("ranged_ind", set_ind_range_uniform, min_ind, max_ind)
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.ranged_ind)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
