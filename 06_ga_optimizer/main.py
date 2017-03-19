@@ -28,66 +28,23 @@ def main():
     rrl.all_p = ini_rrl.all_p
     rrl.set_t_p_r()
     
-    #----GA fit
-    import random
-
-    from deap import algorithms
-    from deap import base
-    from deap import creator
-    from deap import tools
-
-    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-    creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
-
-    toolbox = base.Toolbox()
-
-    # toolbox.register("attr_bool", random.randint, 0, 1)
-    toolbox.register("attr_bool", random.uniform, -3, 3)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, n=M+2)
-    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-
-    def evalOneMax(individual):
-        return rrl.calc_S(individual),
-    #     return sum(individual),
-
-    def cxTwoPointCopy(ind1, ind2):
-        size = len(ind1)
-        cxpoint1 = random.randint(1, size)
-        cxpoint2 = random.randint(1, size - 1)
-        if cxpoint2 >= cxpoint1:
-            cxpoint2 += 1
-        else: # Swap the two cx points
-            cxpoint1, cxpoint2 = cxpoint2, cxpoint1
-
-        ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] \
-            = ind2[cxpoint1:cxpoint2].copy(), ind1[cxpoint1:cxpoint2].copy()
-
-        return ind1, ind2
-
-
-    toolbox.register("evaluate", evalOneMax)
-    toolbox.register("mate", cxTwoPointCopy)
-    toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
-    toolbox.register("select", tools.selTournament, tournsize=3)
-
-
-    random.seed(64)
-
-    pop = toolbox.population(n=100)
-    hof = tools.HallOfFame(1, similar=np.array_equal)
-
-    stats = tools.Statistics(lambda ind: ind.fitness.values)
-    stats.register("avg", np.mean)
-    stats.register("std", np.std)
-    stats.register("min", np.min)
-    stats.register("max", np.max)
-
-    population, logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=100, stats=stats, halloffame=hof)
-
+    #--- GA fit
+    min_w = np.ones(M+2)*-3.0
+    max_w= np.ones(M+2)*3.0
+    min_w[0]     = -5.0
+    max_w[0]     =  5.0
+    min_w[M+2-1] = -5.0
+    max_w[M+2-1] =  5.0
+    
+    npop = 100
+    ngen = 100
+    random_state = 64
+    rrl, population, logbook = ga_fit(rrl, min_w, max_w, random_state, npop, ngen)
+    
     # Plot results.
     # Training for initial term T.
-    df =pd.DataFrame(logbook)
-    plt.plot((df["gen"])*100,df["max"])
+    df = pd.DataFrame(logbook)
+    plt.plot((df["gen"])*npop,df["max"])
     plt.title("Sharp's ratio optimization")
     plt.xlabel("Epoch times")
     plt.ylabel("Sharp's ratio")
@@ -157,6 +114,66 @@ def main():
     ax[2].grid(True)
     plt.savefig("rrl_prediction.png", dpi=300)
     fig.clear()
+
+
+def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
+    import random
+
+    from deap import algorithms
+    from deap import base
+    from deap import creator
+    from deap import tools
+
+    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+    creator.create("Individual", np.ndarray, fitness=creator.FitnessMax)
+
+    toolbox = base.Toolbox()
+
+    def set_ind_range(min_ind, max_ind):
+        _ind = []
+        for min, max in zip(min_ind, max_ind):
+            _ind.append(random.uniform(min, max))
+        return _ind
+
+    toolbox.register("ranged_ind", set_ind_range, min_ind, max_ind)
+    toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.ranged_ind)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+    def evalOneMax(individual):
+        return _rrl.calc_S(individual),
+
+    def cxTwoPointCopy(ind1, ind2):
+        size = len(ind1)
+        cxpoint1 = random.randint(1, size)
+        cxpoint2 = random.randint(1, size - 1)
+        if cxpoint2 >= cxpoint1:
+            cxpoint2 += 1
+        else: # Swap the two cx points
+            cxpoint1, cxpoint2 = cxpoint2, cxpoint1
+
+        ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] = ind2[cxpoint1:cxpoint2].copy(), ind1[cxpoint1:cxpoint2].copy()
+
+        return ind1, ind2
+
+    toolbox.register("evaluate", evalOneMax)
+    toolbox.register("mate", cxTwoPointCopy)
+    toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
+    toolbox.register("select", tools.selTournament, tournsize=3)
+
+    random.seed(random_state)
+
+    pop = toolbox.population(n=npop)
+    hof = tools.HallOfFame(1, similar=np.array_equal)
+
+    stats = tools.Statistics(lambda ind: ind.fitness.values)
+    stats.register("avg", np.mean)
+    stats.register("std", np.std)
+    stats.register("min", np.min)
+    stats.register("max", np.max)
+
+    _population, _logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=ngen, stats=stats, halloffame=hof)
+    
+    return _rrl, _population, _logbook
 
 if __name__ == "__main__":
     main()
