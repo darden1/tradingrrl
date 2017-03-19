@@ -29,8 +29,9 @@ def main():
     rrl.set_t_p_r()
     
     #--- GA fit
-    min_w = np.ones(M+2)*-3.0
-    max_w= np.ones(M+2)*3.0
+    #--- Set w ranges.
+    min_w = np.ones(M+2) * -3.0
+    max_w = np.ones(M+2) *  3.0
     min_w[0]     = -5.0
     max_w[0]     =  5.0
     min_w[M+2-1] = -5.0
