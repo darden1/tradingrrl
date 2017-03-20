@@ -40,7 +40,9 @@ def main():
     npop = 100
     ngen = 100
     random_state = 64
-    rrl, population, logbook = ga_fit(rrl, min_w, max_w, random_state, npop, ngen)
+    best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, npop, ngen)
+    rrl.w = best_ind
+    rrl.calc_dSdw()
     
     # Plot results.
     # Training for initial term T.
@@ -130,20 +132,21 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
 
     toolbox = base.Toolbox()
 
-    def set_ind_range_uniform(min_ind, max_ind):
+    def create_ind_uniform(min_ind, max_ind):
         _ind = []
         for min, max in zip(min_ind, max_ind):
             _ind.append(random.uniform(min, max))
         return _ind
     """
-    def set_ind_range_gauss(mu_ind, sigma_ind):
+    def create_ind_gauss(mu_ind, sigma_ind):
         _ind = []
         for mu, sigma in zip(mu_ind, sigma_ind):
             _ind.append(random.gauss(mu, sigma))
         return _ind
     """
-    toolbox.register("ranged_ind", set_ind_range_uniform, min_ind, max_ind)
-    toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.ranged_ind)
+    toolbox.register("create_ind", create_ind_uniform, min_ind, max_ind)
+    # toolbox.register("create_ind", create_ind_gauss, mu_ind, sigma_ind)
+    toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.create_ind)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     def evalOneMax(individual):
@@ -178,9 +181,10 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
     stats.register("min", np.min)
     stats.register("max", np.max)
 
-    _population, _logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=ngen, stats=stats, halloffame=hof)
+    pop_last, logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=ngen, stats=stats, halloffame=hof)
+    best_ind = tools.selBest(pop_last, 1)[0]
     
-    return _rrl, _population, _logbook
+    return best_ind, logbook
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,3 @@
+LIBRARY cpp_test_sum.pyd
+EXPORTS
+initcpp_test_sum
