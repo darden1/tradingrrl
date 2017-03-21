@@ -27,23 +27,23 @@ def main():
     rrl.all_t = ini_rrl.all_t
     rrl.all_p = ini_rrl.all_p
     rrl.set_t_p_r()
-    
+
     #--- GA fit
     #--- Set w ranges.
     min_w = np.ones(M+2) * -3.0
     max_w = np.ones(M+2) *  3.0
-    min_w[0]     = -5.0
-    max_w[0]     =  5.0
+    #min_w[0]     = -5.0
+    #max_w[0]     =  5.0
     min_w[M+2-1] = -5.0
     max_w[M+2-1] =  5.0
-    
+
     npop = 100
-    ngen = 100
+    ngen = 200
     random_state = 64
     best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, npop, ngen)
     rrl.w = best_ind
     rrl.calc_dSdw()
-    
+
     # Plot results.
     # Training for initial term T.
     df = pd.DataFrame(logbook)
@@ -137,13 +137,13 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
         for min, max in zip(min_ind, max_ind):
             _ind.append(random.uniform(min, max))
         return _ind
-    """
+
     def create_ind_gauss(mu_ind, sigma_ind):
         _ind = []
         for mu, sigma in zip(mu_ind, sigma_ind):
             _ind.append(random.gauss(mu, sigma))
         return _ind
-    """
+
     toolbox.register("create_ind", create_ind_uniform, min_ind, max_ind)
     # toolbox.register("create_ind", create_ind_gauss, mu_ind, sigma_ind)
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.create_ind)
@@ -160,14 +160,19 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
             cxpoint2 += 1
         else: # Swap the two cx points
             cxpoint1, cxpoint2 = cxpoint2, cxpoint1
-
         ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] = ind2[cxpoint1:cxpoint2].copy(), ind1[cxpoint1:cxpoint2].copy()
-
         return ind1, ind2
+
+    def mutUniformDbl(individual, min_ind, max_ind, indpb):
+        size = len(individual)
+        for i, min, max  in zip(xrange(size), min_ind, max_ind):
+            if random.random() < indpb:
+                individual[i] = random.uniform(min, max)
+        return individual,
 
     toolbox.register("evaluate", evalOneMax)
     toolbox.register("mate", cxTwoPointCopy)
-    toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
+    toolbox.register("mutate", mutUniformDbl, min_ind=min_ind, max_ind=max_ind, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=3)
 
     random.seed(random_state)
@@ -183,7 +188,7 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
 
     pop_last, logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=ngen, stats=stats, halloffame=hof)
     best_ind = tools.selBest(pop_last, 1)[0]
-    
+
     return best_ind, logbook
 
 if __name__ == "__main__":
