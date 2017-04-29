@@ -22,7 +22,7 @@ def main():
     ini_rrl.load_csv(fname)
     ini_rrl.set_t_p_r()
     ini_rrl.calc_dSdw()
-
+    # RRL agent for training 
     rrl = TradingRRL(T, M, init_t,  mu, sigma, rho, n_epoch)
     rrl.all_t = ini_rrl.all_t
     rrl.all_p = ini_rrl.all_p
@@ -38,7 +38,7 @@ def main():
     max_w[M+2-1] =  5.0
 
     nind = 200
-    ngen = 200
+    ngen = 170
     random_state = 64
     best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, nind, ngen)
     rrl.w = best_ind
