@@ -37,17 +37,17 @@ def main():
     min_w[M+2-1] = -5.0
     max_w[M+2-1] =  5.0
 
-    npop = 100
+    nind = 200
     ngen = 200
     random_state = 64
-    best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, npop, ngen)
+    best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, nind, ngen)
     rrl.w = best_ind
     rrl.calc_dSdw()
 
     # Plot results.
     # Training for initial term T.
     df = pd.DataFrame(logbook)
-    plt.plot((df["gen"])*npop,df["max"])
+    plt.plot((df["gen"])*nind,df["max"])
     plt.title("Sharp's ratio optimization")
     plt.xlabel("Epoch times")
     plt.ylabel("Sharp's ratio")
@@ -119,7 +119,7 @@ def main():
     fig.clear()
 
 
-def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
+def ga_fit(_rrl, min_ind, max_ind, random_state, nind, ngen):
     import random
 
     from deap import algorithms
@@ -133,16 +133,16 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
     toolbox = base.Toolbox()
 
     def create_ind_uniform(min_ind, max_ind):
-        _ind = []
+        ind = []
         for min, max in zip(min_ind, max_ind):
-            _ind.append(random.uniform(min, max))
-        return _ind
+            ind.append(random.uniform(min, max))
+        return ind
 
     def create_ind_gauss(mu_ind, sigma_ind):
-        _ind = []
+        ind = []
         for mu, sigma in zip(mu_ind, sigma_ind):
-            _ind.append(random.gauss(mu, sigma))
-        return _ind
+            ind.append(random.gauss(mu, sigma))
+        return ind
 
     toolbox.register("create_ind", create_ind_uniform, min_ind, max_ind)
     # toolbox.register("create_ind", create_ind_gauss, mu_ind, sigma_ind)
@@ -177,7 +177,7 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
 
     random.seed(random_state)
 
-    pop = toolbox.population(n=npop)
+    pop = toolbox.population(n=nind)
     hof = tools.HallOfFame(1, similar=np.array_equal)
 
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -185,6 +185,13 @@ def ga_fit(_rrl, min_ind, max_ind, random_state, npop, ngen):
     stats.register("std", np.std)
     stats.register("min", np.min)
     stats.register("max", np.max)
+
+    # Get elapsed time
+    import time
+    tic = time.clock()
+    def get_elapsedtime(data):
+        return time.clock() - tic
+    stats.register("elapsed time",get_elapsedtime)
 
     pop_last, logbook = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.2, ngen=ngen, stats=stats, halloffame=hof)
     best_ind = tools.selBest(pop_last, 1)[0]
