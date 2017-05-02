@@ -30,15 +30,15 @@ def main():
 
     #--- GA fit
     #--- Set w ranges.
-    min_w = np.ones(M+2) * -3.0
-    max_w = np.ones(M+2) *  3.0
+    min_w = np.ones(M+2+9) * -3.0
+    max_w = np.ones(M+2+9) *  3.0
     #min_w[0]     = -5.0
     #max_w[0]     =  5.0
-    min_w[M+2-1] = -5.0
-    max_w[M+2-1] =  5.0
+    min_w[M+2-1:M+2-1+9] = -5.0
+    max_w[M+2-1:M+2-1+9] =  5.0
 
     nind = 200
-    ngen = 170
+    ngen = 20000
     random_state = 64
     best_ind, logbook = ga_fit(rrl, min_w, max_w, random_state, nind, ngen)
     rrl.w = best_ind
