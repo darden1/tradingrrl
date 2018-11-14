@@ -5,27 +5,38 @@
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2014, MetaQuotes Software Corp."
 #property link      "http://www.mql5.com"
-#property version   "1.03"
+#property version   "1.04"
 #property strict
 
 #define MAGIC 20170214
 
 extern int    slippage        = 2;
 extern double lots            = 0.1;
+
+// Number of bars in training period.
+extern int    T               = 150;
+// Number of bars feeding to the neuralnet. 
+extern int    M               = 30; 
+// Learning rate for the agent training.    
+extern double rho             = 2.0;
+// Quantizer threshold. ex. F>=q_threshold, F<=q_threshold, or else, then buy, sell or neutral flag is set.
+extern double q_threshold     = 0.7;
+// Number of epochs for the agent training.
+extern int    n_epoch         = 5000;
+// Weights are updated every time after bars are updated for this number of times.
+extern int    n_tick_update_w = 100;
+// Write log?
+extern bool   write_log       = True;
+
 extern bool   stop_flag       = False;
 extern bool   limit_flag      = False;
 extern double stop_points     = 1000;
 extern double limit_points    = 1000;
 
-extern int    T               = 150;
-extern int    M               = 30;
-extern double mu              = 10000;
-extern double sigma           = 0.04;
-extern double rho             = 2.0;
-extern double q_threshold     = 0.7;
-extern int    n_epoch         = 10000;
-extern int    n_tick_update_w = 100;
-extern bool   write_log       = True;
+// Number of currencies per a transaction.
+double mu = MarketInfo(Symbol(), MODE_LOTSIZE)*lots;
+// spread per a transaction.  
+double sigma = MarketInfo(Symbol(), MODE_SPREAD)*Point;     
 
 int    n_tick;
 bool   init_flag;
